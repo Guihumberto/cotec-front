@@ -1,29 +1,58 @@
 <template>
-    <v-card class="mt-2" hover>
-        <v-card-title>Projeto Teste</v-card-title>
+<div>
+    <v-card class="mt-2" hover v-for="project in projects" :key="project.id">
+        <v-card-title>{{project.name}}</v-card-title>
         <v-card-subtitle>
             <div d-flex>
-                <span> Lider: Joao Humberto</span> 
-                <span class="mx-2">Colider: Maria da Silva</span>
-                <span>Valor: R$12</span>
-                <span class="ml-2">Empresa/Consultor: teste</span>
+                <span> Lider: {{project.lider}}</span> 
+                <span class="mx-2">Colider:{{project.colider}}</span>
+                <span>Valor: R${{project.value}}</span>
+                <span class="ml-2">Empresa/Consultor: {{project.company}}</span>
             </div>
         </v-card-subtitle>
-        <v-divider></v-divider>
         <v-card-text>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatem, hic sequi aliquid odio possimus modi aperiam fugiat culpa? 
-                Eos repellat at fugiat necessitatibus. Vitae est blanditiis fugiat facilis corporis doloremque?</p>
+            <p>{{project.object}}</p>
+            <painels-barProjectList :tags="project" />
         </v-card-text>
+        <v-divider></v-divider>
         <v-card-actions>
-            <v-row>
-                <v-col cols="12" sm="9">
-                    <painels-barProjectList />
-                </v-col>
-                <v-col cols="12" sm="3" align-self="end">
-                    <v-btn small color="warning" to="/project"> <v-icon small>mdi-bell</v-icon> </v-btn> 
-                    <v-btn small color="success" to="/project">Saber mais</v-btn>       
-                </v-col>
-            </v-row>         
+            <v-spacer></v-spacer>
+            <v-btn small icon @click="alert" :color="notification ? 'warning':'secondary lighten-3'" > <v-icon small>mdi-bell</v-icon> </v-btn> 
+            <v-btn small color="success" :to="{
+                        name: 'project',
+                        params:{project: project.name},
+                        query:{id: project.id}  
+                      }" >Saber +</v-btn>              
         </v-card-actions>
     </v-card>
+</div>
 </template>
+
+<script>
+export default {
+    name: 'listProject',
+
+    data(){
+        return{
+            notification: false,
+        }
+    },
+
+    props:{
+        projects: true
+    },
+
+    methods:{
+        alert(){
+            this.notification = !this.notification
+
+            if(this.notification){
+                this.$store.dispatch("snackbars/setSnackbars", {text:'Notificações ativas!', color:'primary', timeout:'3000'})
+            } else {
+                this.$store.dispatch("snackbars/setSnackbars", {text:'Notificações desativadas!', color:'error', timeout:'3000'})
+            }
+        }  
+    }
+  
+}
+</script>

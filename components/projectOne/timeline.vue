@@ -1,6 +1,6 @@
 <template>
   <v-container style="max-width: 700px;">
-    <h2>Atualizações</h2>
+    <h2>Atualizações do Projeto - Nome do Projeto</h2>
     <v-timeline
       dense
       clipped

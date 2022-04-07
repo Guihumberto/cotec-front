@@ -39,13 +39,13 @@
 
       <template v-slot:append>
 
-        <v-list-item two-line to="/perfil">
-          <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg">
+        <v-list-item two-line to="/perfil" v-if="login">
+          <v-list-item-avatar color="indigo">
+            <span class="white--text">JH</span>
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Jane Smith</v-list-item-title>
+            <v-list-item-title>João Humberto</v-list-item-title>
             <v-list-item-subtitle>Auditor Fiscal</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -55,11 +55,16 @@
 
         <v-divider></v-divider>
 
-        <div class="pa-2">
-          <v-btn block color="primary">
-            Logout
-          </v-btn>
+        <div class="pa-2 text-center" v-if="login">
+          <v-btn small color="error" icon @click="login = !login"><v-icon>mdi-logout</v-icon></v-btn>
+          <v-btn small icon><v-icon small>mdi-tools</v-icon></v-btn>
+          <v-btn small color="primary lighten-1">Meus Projetos</v-btn>
         </div>
+
+        <div class="pa-2" v-else>
+          <forms-login />
+        </div>
+
       </template>
 
     </v-navigation-drawer>
@@ -88,12 +93,33 @@
       </v-btn>
 
       <v-btn icon>
+        <v-icon>mdi-bell</v-icon>
+      </v-btn>
+
+      <v-btn icon>
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+
+      <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
 
     <v-main class="grey lighten-4">
       <Nuxt />
+      
+      <v-snackbar 
+          v-for="(snack, i) in snacks.filter((s)=> s.showing)" :key="i + Math.random()"
+          v-model="snack.showing"
+          :timeout="snack.timeout"
+          :color="snack.color"
+          :style="`bottom: ${i * 60 + 8}px`"
+        >
+        <v-btn slot="action" icon small @click="snack.showing = false">
+          <v-icon small>mdi-close</v-icon>
+        </v-btn>
+        {{snack.text}}
+      </v-snackbar>
     </v-main>
 
     <v-footer padless app color="#42a047" dark>
@@ -112,12 +138,16 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     data(){ 
       return{
         drawer: false,
         titleApp:"COTEC",
         institute: "SEFAZ-MA",
+        login: true,
+        snack: false,
          items: [
           { title: 'Início', icon: 'mdi-home', url:"/"},
           { title: 'Projetos', icon: 'mdi-newspaper-variant-multiple-outline', url:"/projects"},
@@ -126,7 +156,12 @@
         ],
         right: null,
         }
-    }
+    },
+    computed:{
+      ...mapGetters({
+        snacks:"snackbars/readSnackbars"
+      })
+    },
   }
 </script>
 
@@ -148,6 +183,10 @@
         border-bottom: 1px solid rgb(26, 125, 57);
         margin-left: 1px;
         margin-right: 2px;
+    }
+    .verticalTag{
+      border-right: 5px solid rgb(26, 125, 57);
+      margin-right: 2px;
     }
 
 </style>

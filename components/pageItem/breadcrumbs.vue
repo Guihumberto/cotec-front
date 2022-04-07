@@ -1,5 +1,5 @@
 <template>
-    <v-breadcrumbs :items="items">
+    <v-breadcrumbs :items="breadcrumbs">
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
@@ -8,24 +8,8 @@
 
 <script>
   export default {
-    data: () => ({
-      items: [
-        {
-          text: 'Home',
-          disabled: false,
-          href: '/',
-        },
-        {
-          text: 'Projetos',
-          disabled: false,
-          href: '/projects',
-        },
-        {
-          text: 'Nome do Projeto',
-          disabled: true,
-          href: '/id',
-        },
-      ],
-    }),
+    props:{
+      breadcrumbs: true
+    }
   }
 </script>
