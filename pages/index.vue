@@ -1,7 +1,8 @@
 <template>
   <v-container style="max-width: 1080px;">
       <pageItem-breadcrumbs class="mx-0 px-1 py-2" :breadcrumbs="breadcrumbs"/>
-      <painels-painelQtd />
+
+      <painels-painelQtd :projects="projects" />
       <painels-listPrioritys />
       <painels-lastUpdate />
       <painels-presentation />

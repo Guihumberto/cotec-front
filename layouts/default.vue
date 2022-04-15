@@ -88,7 +88,19 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+
+      <v-expand-x-transition>
+        <v-col cols="5" sm="2">
+          <v-text-field 
+          v-if="searchBar"
+          app outlined dense clearable rounded filled
+          prepend-inner-icon="mdi-magnify"
+          class="mt-7"
+          ></v-text-field>
+        </v-col>
+      </v-expand-x-transition>
+
+      <v-btn icon @click="searchBar = true" v-show="!searchBar">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
@@ -148,6 +160,7 @@
         institute: "SEFAZ-MA",
         login: true,
         snack: false,
+        searchBar: false,
          items: [
           { title: 'Início', icon: 'mdi-home', url:"/"},
           { title: 'Projetos', icon: 'mdi-newspaper-variant-multiple-outline', url:"/projects"},

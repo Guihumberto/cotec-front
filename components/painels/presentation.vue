@@ -1,7 +1,9 @@
 <template>
-    <v-card>
+    <v-card v-show="painel">
         <v-card-title class="headline">
           <p class="textJustify">Seja bem-vindo ao sistema de acompanhamento de projetos da SEFAZ</p>  
+          <v-spacer></v-spacer>
+          <v-btn icon @click="painel = false"> <v-icon>mdi-close</v-icon> </v-btn>
         </v-card-title>
         <v-card-text>
           <p class="textJustify">
@@ -75,3 +77,13 @@
         </v-card-actions>
       </v-card>
 </template>
+
+<script>
+export default {
+  data(){
+    return{
+      painel: true
+    }
+  }
+}
+</script>

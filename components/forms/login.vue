@@ -24,7 +24,7 @@
                         color="white"
                         v-if="isLoading"
                     ></v-progress-circular>
-                    <v-btn icon v-else @click="close()">
+                    <v-btn icon v-else @click="dialog = false">
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
@@ -85,6 +85,7 @@
 export default {
     data(){
         return{
+            dialog: false,
             show:false,
             isLogin: true, 
             isLoading: false,
