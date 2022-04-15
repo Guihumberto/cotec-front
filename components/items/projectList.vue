@@ -8,6 +8,7 @@
                 <span class="mx-2">Colider:{{project.colider}}</span>
                 <span>Valor: R${{project.value}}</span>
                 <span class="ml-2">Empresa/Consultor: {{project.company}}</span>
+                <span class="ml-2">Execução: {{project.execution}}</span>
             </div>
         </v-card-subtitle>
         <v-card-text>
@@ -22,7 +23,7 @@
                         name: 'project',
                         params:{project: project.name},
                         query:{id: project.id}  
-                      }" >Saber +</v-btn>              
+                      }" >Detalhes +</v-btn>              
         </v-card-actions>
     </v-card>
 </div>

@@ -1,6 +1,6 @@
 <template>
   <v-container style="max-width: 700px;">
-    <h2>Atualizações do Projeto - Nome do Projeto</h2>
+    <h2 class="headline ligheten-1">Atualizações do Projeto - {{project.name}}</h2>
     <v-timeline
       dense
       clipped
@@ -63,10 +63,11 @@
         class="mb-6"
         hide-dot
       >
-        <span>Última Atualização</span>
+        <span>Últimas Atualizações</span>
       </v-timeline-item>
 
       <v-timeline-item
+        v-for="item in updates" :key="item.idUpt"
         class="mb-4"
         color="grey"
         icon-color="grey lighten-2"
@@ -74,7 +75,7 @@
       >
         <v-row justify="space-between">
           <v-col cols="7">
-            Entrega da OS07 - inclusão de tabela
+            {{item.title}} - {{item.text}}
           </v-col>
           <v-col
             class="text-right"
@@ -84,97 +85,7 @@
           </v-col>
         </v-row>
       </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            <v-chip
-              class="white--text ml-0"
-              color="purple"
-              label
-              small
-            >
-              APP
-            </v-chip>
-            Sistema de Desenvolvimento.
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            04/04/2021 15:25
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        color="grey"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            Entrega do ambiente de desenvolvimento.
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            03/03/2021 15:25
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        hide-dot
-      >
-        <v-btn
-          class="mx-0"
-          href="https://correio.sefaz.ma.gov.br/"
-          target="_blank"
-        >
-          Enviar Email
-        </v-btn>
-      </v-timeline-item>
-
-      <v-timeline-item
-        class="mb-4"
-        color="grey"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            kickoff com a empresa teste s/a
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            01/02/2021 15:25  
-          </v-col>
-        </v-row>
-      </v-timeline-item>
-
-      <v-timeline-item
-        color="grey"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            Início do Contrato.
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-            01/01/2021 15:25
-          </v-col>
-        </v-row>
-      </v-timeline-item>
+      
     </v-timeline>
   </v-container>
 </template>
@@ -187,9 +98,19 @@
       nonce: 0,
     }),
 
+    props:{
+      project: Object
+    },
+
     computed: {
       timeline () {
         return this.events.slice().reverse()
+      },
+      updates(){
+        let res
+        res = this.$store.getters.readUpdates.filter(x => x.id == this.project.id)
+
+        return res
       },
     },
 

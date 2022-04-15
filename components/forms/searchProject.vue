@@ -1,9 +1,9 @@
 <template>
     <v-card>
-        <v-card-title>Filtros</v-card-title>
+        <v-card-title>Filtros <v-spacer></v-spacer> <v-btn title="pesquisa avançada" icon @click="searchAdvanced = !searchAdvanced"> <v-icon v-text="iconSearch"></v-icon> </v-btn> </v-card-title>
         <v-card-text>
             <v-text-field @keyup="search" v-model="filter.search" dense outlined label="Busca" prepend-inner-icon="mdi-magnify" solo></v-text-field>
-            <v-row>
+            <v-row v-show="searchAdvanced">
                 <v-col cols="4" sm="3" class="my-0 py-0">
                    <v-radio-group
                     v-model="filter.type"
@@ -58,6 +58,7 @@
 export default {
     data(){
         return{
+            searchAdvanced: false,
             filter:{
                     search: '',
                     sector: '',
@@ -71,6 +72,13 @@ export default {
     },
     props:{
         qtdProject: true
+    },
+    computed:{
+        iconSearch(){
+            return this.searchAdvanced
+            ? 'mdi-chevron-down'
+            : 'mdi-chevron-up'
+        }
     },
     methods:{
         search(){

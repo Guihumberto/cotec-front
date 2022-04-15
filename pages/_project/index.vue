@@ -90,7 +90,7 @@
                 <projectOne-information :typeDocument="option1" />  <br> <projectOne-information :typeDocument="option2" />
             </v-card-text>
         </v-card>
-        <projectOne-timeline />
+        <projectOne-timeline :project="selectProject" />
     </v-container>
 </template>
 
@@ -125,9 +125,6 @@ export default {
     computed:{
         projects(){
             return this.$store.getters.readProjects
-        },
-        updates(){
-            return this.$store.getters.readUpdates
         },
         selectProject(){
             let projectSelected = ''
