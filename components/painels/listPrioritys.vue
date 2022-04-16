@@ -3,10 +3,33 @@
   <span class="Heading 6"> <span class="verticalTag"></span> Lista de Priotidades - PDTI</span>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="projects"
     :items-per-page="5"
     class="elevation-1"
-  ></v-data-table>
+  >
+    <template v-slot:item.priority="{ item }">
+      <v-chip
+        :color="getColor(item.priority)"
+        dark small
+      >
+        {{ item.priority }}
+      </v-chip>
+    </template>
+    <template v-slot:item.profisco="{ item }">
+      <v-chip
+        :color="getColorProfisco(item.profisco)"
+        dark small
+      >
+        {{ item.profisco ? 'Sim' : 'Não' }}
+      </v-chip>
+    </template>
+    <template v-slot:item.status="{ item }">
+        {{ status(item.status) }}
+    </template>
+    <template v-slot:item.type="{ item }">
+      {{ item.type == 1 ? 'Sistema' : 'Infra' }}
+    </template>
+  </v-data-table>
 </div>
 </template>
 
@@ -20,101 +43,53 @@
             align: 'start',
             sortable: false,
             value: 'name',
+            class:'indigo darken-4 white--text'
           },
-          { text: 'Profisco', value: 'calories' },
-          { text: 'Proridades', value: 'fat' },
-          { text: 'Lider', value: 'carbs' },
-          { text: 'Colíder', value: 'protein' },
-          { text: 'Tipo', value: 'iron' },
-          { text: 'Execução', value: 'execution' },
-          { text: 'Detalhes', value: 'details' },
+          { text: 'Profisco', value: 'profisco', align: 'center', class:'indigo darken-4 white--text'},
+          { text: 'Proridades', value: 'priority', align: 'center', class:'indigo darken-4 white--text'},
+          { text: 'Lider', value: 'lider', class:'indigo darken-4 white--text'},
+          { text: 'Colíder', value: 'colider', class:'indigo darken-4 white--text'},
+          { text: 'Tipo', value: 'type', align: 'center', class:'indigo darken-4 white--text'},
+          { text: 'Status', value: 'status', align: 'center', class:'indigo darken-4 white--text'},
+          { text: 'Execução', value: 'execution', align: 'center', class:'indigo darken-4 white--text'},
         ],
-        desserts: [
-          {
-            name: 'ITIL',
-            calories: 'sim',
-            fat: '+3',
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: 'Sistema',
-            execution: '10%',
-            details: 'btn',
-          },
-          {
-            name: 'LGPD',
-            calories: 'sim',
-            fat: 3,
-             carbs: 'Humberto',
-            protein: 'João',
-            iron: 'Infra'
-          },
-          {
-            name: 'Pucomex',
-            calories: 'sim',
-            fat: 2,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: 'Infra',
-            details: 'btn',
-          },
-          {
-            name: 'Conta Corrente',
-            calories: 'sim',
-            fat: 2,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: 'Infra',
-          },
-          {
-            name: 'Controle de Acesso',
-            calories: 'não',
-            fat: 1,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: 'Sistema',
-          },
-          {
-            name: 'Jelly bean',
-            calories: 'não',
-            fat: 3,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: '0%',
-          },
-          {
-            name: 'Lollipop',
-            calories: "sim",
-            fat: 1,
-            carbs: 98,
-            protein: 0,
-            iron: '2%',
-          },
-          {
-            name: 'Honeycomb',
-            calories: "sim",
-            fat: 2,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: '45%',
-          },
-          {
-            name: 'Donut',
-            calories: "não",
-            fat: 2,
-            carbs: 'Humberto',
-            protein: 'João',
-            iron: '22%',
-          },
-          {
-            name: 'KitKat',
-            calories: 'sim',
-            fat: 1,
-            carbs: 65,
-            protein: 7,
-            iron: '6%',
-          },
-        ],
+      }
+    },
+    props:{
+      projects: Array
+    },
+    methods: {
+      getColor (x) {
+        if (x == '3+') return 'red'
+        else if (x == '3') return 'orange'
+        else return 'green'
+      },
+      getColorProfisco (x) {
+        return x 
+        ? 'green'
+        : 'red'
+      },
+      status(x){
+        switch(x){
+          case 1:
+            return 'Não Iniciado'
+            break;
+          case 2:
+            return 'Em andamento'
+            break;
+          case 3:
+            return 'Concluído'
+            break;
+          case 99:
+            return 'Paralisado'
+            break;
+          default:
+            return 'nao encontrado'
+        }
+
+       
       }
     },
   }
 </script>
+

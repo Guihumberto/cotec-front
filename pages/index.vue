@@ -3,7 +3,7 @@
       <pageItem-breadcrumbs class="mx-0 px-1 py-2" :breadcrumbs="breadcrumbs"/>
 
       <painels-painelQtd :projects="projects" />
-      <painels-listPrioritys />
+      <painels-listPrioritys :projects="projects" />
       <painels-lastUpdate />
       <painels-presentation />
   </v-container>

@@ -146,72 +146,72 @@ export default {
       return total.length
     },
     currentSistemas(){
-      const total = this.projects.filter(el => el.type == "1")
+      const total = this.projects.filter(el => el.status == 2 && el.type == "1")
       return total.length
     },
     currentInfra(){
-      const total = this.projects.filter(el => el.type == "2")
+      const total = this.projects.filter(el => el.status == 2 && el.type == "2")
       return total.length
     },
     currentOutros(){
-      return this.total - this.totalSistemas - this.totalInfra
+      return this.current - this.currentSistemas - this.currentInfra
     },
     currentProfisco(){
-      const total = this.projects.filter(el => el.profisco == true)
+      const total = this.projects.filter(el => el.status == 2 && el.profisco == true)
       return total.length
     },
     currentPriority(){
-      const total = this.projects.filter(el => el.priority == "3")
+      const total = this.projects.filter(el => el.status == 2 && el.priority == "3")
       return total.length
     },
     currentPriorityMais(){
-      const total = this.projects.filter(el => el.priority == "3+")
+      const total = this.projects.filter(el => el.status == 2 && el.priority == "3+")
       return total.length
     },
     concludedSistemas(){
-      const total = this.projects.filter(el => el.type == "1")
+      const total = this.projects.filter(el => el.status == 3 && el.type == "1")
       return total.length
     },
     concludedInfra(){
-      const total = this.projects.filter(el => el.type == "2")
+      const total = this.projects.filter(el => el.status == 3 && el.type == "2")
       return total.length
     },
     concludedOutros(){
-      return this.total - this.totalSistemas - this.totalInfra
+      return this.concluded - this.concludedSistemas - this.concludedInfra
     },
     concludedProfisco(){
-      const total = this.projects.filter(el => el.profisco == true)
+      const total = this.projects.filter(el => el.status == 3 && el.profisco == true)
       return total.length
     },
     concludedPriority(){
-      const total = this.projects.filter(el => el.priority == "3")
+      const total = this.projects.filter(el => el.status == 3 && el.priority == "3")
       return total.length
     },
     concludedPriorityMais(){
-      const total = this.projects.filter(el => el.priority == "3+")
+      const total = this.projects.filter(el => el.status == 3 && el.priority == "3+")
       return total.length
     },
     notStartSistemas(){
-      const total = this.projects.filter(el => el.type == "1")
+      const total = this.projects.filter(el => el.status == 1 && el.type == "1")
       return total.length
     },
     notStartInfra(){
-      const total = this.projects.filter(el => el.type == "2")
+      const total = this.projects.filter(el => el.status == 1 && el.type == "2")
       return total.length
     },
     notStartOutros(){
-      return this.total - this.totalSistemas - this.totalInfra
+      return this.notStart - this.notStartSistemas - this.notStartInfra
     },
     notStartProfisco(){
-      const total = this.projects.filter(el => el.profisco == true)
+      const total = this.projects.filter(el => el.status == 1 && el.profisco == true)
       return total.length
     },
     notStartPriority(){
-      const total = this.projects.filter(el => el.priority == "3")
+      const total = this.projects.filter(el => el.status == 1 && el.priority == "3")
       return total.length
     },
     notStartPriorityMais(){
-      const total = this.projects.filter(el => el.priority == "3+")
+      const total = this.projects.filter(el => el.status == 1 && el.priority == "3+")
       return total.length
     },
   }
