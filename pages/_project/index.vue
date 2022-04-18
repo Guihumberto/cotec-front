@@ -98,6 +98,7 @@
 export default {
     data(){
         return{
+            icon: true,
             notification: false,
             idProject: this.$route.query.id,
             option1: true,

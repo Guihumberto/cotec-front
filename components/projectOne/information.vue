@@ -16,8 +16,8 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title>
-          <span class="text-h5">{{button.text}}</span>
+        <v-card-title class="text-h5 grey lighten-2">
+          <span :class="typeDocument ? 'black--text' : 'red--text'">{{button.text}}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -46,6 +46,7 @@
           </v-container>
           <small>*Todos os campos são obrigatórios</small>
         </v-card-text>
+        <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
@@ -70,6 +71,11 @@
 
 <script>
     export default {
+        data(){
+          return{
+            dialog: false
+          }
+        },
         props:{
             typeDocument: Boolean
         },

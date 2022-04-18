@@ -68,7 +68,7 @@
             ref="colider"
             outlined dense
             v-model.trim="project.colider"
-            :rules="[() => !!project.colider || 'This field is required']"
+            :rules="[() => !!project.colider || 'Campo Obrigatório']"
             label="Colider"
             required
             placeholder="Digite o nome do colider"
@@ -134,13 +134,9 @@ export default {
 
         //gravar dados
         this.setProjects(this.project)
-
-        //fechar dialog
-
         this.dialog = false
-
-        //limpar campos
         this.$emit(`clearProject`)
+        this.$store.dispatch("snackbars/setSnackbars", {text:`Projeto ${this.project.name} adicionado`, color:'primary', timeout:'3000'})
         
       }
     }

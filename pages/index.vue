@@ -4,7 +4,7 @@
 
       <painels-painelQtd :projects="projects" />
       <painels-listPrioritys :projects="projects" />
-      <painels-lastUpdate />
+      <!--<painels-lastUpdate :projects="projects" /> -->
       <painels-presentation />
   </v-container>
 </template>

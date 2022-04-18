@@ -1,11 +1,9 @@
 <template>
      <v-card flat>
-        <v-card-title>Meus Projetos <v-spacer></v-spacer>
-          
+        <v-card-title>Meus Projetos <v-spacer></v-spacer>       
             <perfil-addproject :project="project" @clearProject="clear"/> 
-   
         </v-card-title>
-        <perfil-listProjects :projects="projects" /> 
+        <perfil-listProjects :projects="projects" />
     </v-card>
 </template>
 
@@ -54,6 +52,6 @@
           justify: ''
         }
       }
-    }
+    },
   }
 </script>

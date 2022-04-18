@@ -1,5 +1,5 @@
 <template>
-    <v-card v-show="painel">
+    <v-card v-show="painel" class="mt-5">
         <v-card-title class="headline">
           <p class="textJustify">Seja bem-vindo ao sistema de acompanhamento de projetos da SEFAZ</p>  
           <v-spacer></v-spacer>

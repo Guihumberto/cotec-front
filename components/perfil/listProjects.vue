@@ -20,12 +20,7 @@
                                 <perfil-details :project="item" />
                                 <perfil-infoAdd :project="item" />
                                 <perfil-editProject :project="item" />
-                                <v-tooltip bottom>
-                                    <template v-slot:activator="{ on, attrs }">
-                                         <v-btn @click="deleteProject(item.id)" small color="error" icon v-bind="attrs" v-on="on"> <v-icon>mdi-delete-circle</v-icon> </v-btn>
-                                    </template>
-                                    <span>Excluir</span>
-                                </v-tooltip>
+                                <forms-confirmation :id="item" @action="deleteProject($event)" />
                                 
                             </div>
                         </v-list-item-action>
@@ -44,7 +39,7 @@
 
 <script>
 
-    import {mapActions} from 'vuex';
+import {mapActions} from 'vuex';
 import perfil from '../../pages/perfil.vue';
 
     export default {
@@ -55,7 +50,7 @@ import perfil from '../../pages/perfil.vue';
             }
         },
         props:{
-            projects: true
+            projects: Array
         },
         methods:{
             ...mapActions(['deleteProject']),

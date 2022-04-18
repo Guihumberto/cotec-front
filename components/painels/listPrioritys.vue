@@ -1,11 +1,21 @@
 <template>
-<div class="my-5">
-  <span class="Heading 6"> <span class="verticalTag"></span> Lista de Priotidades - PDTI</span>
+<v-expand-x-transition>
+<div class="my-5" v-show="close">
+  <div class="d-flex justify-space-between">
+    <span class="Heading 6"> <span class="verticalTag"></span> Lista de Priotidades - PDTI</span>
+    <span>
+      <v-btn small icon @click="minus = !minus"> <v-icon>{{minusMax}}</v-icon> </v-btn>
+      <v-btn small icon @click="close = false"> <v-icon>mdi-close-box-outline</v-icon> </v-btn>
+    </span>
+  </div>
+
+  <v-expand-transition>
   <v-data-table
     :headers="headers"
     :items="projects"
     :items-per-page="5"
     class="elevation-1"
+    v-show="minus"
   >
     <template v-slot:item.priority="{ item }">
       <v-chip
@@ -30,13 +40,17 @@
       {{ item.type == 1 ? 'Sistema' : 'Infra' }}
     </template>
   </v-data-table>
+  </v-expand-transition>
 </div>
+</v-expand-x-transition>
 </template>
 
 <script>
   export default {
     data () {
       return {
+        minus: true, 
+        close: true,
         headers: [
           {
             text: 'Projeto',
@@ -57,6 +71,13 @@
     },
     props:{
       projects: Array
+    },
+    computed:{
+      minusMax(){
+        return this.minus 
+        ? 'mdi-minus-box-outline'
+        : 'mdi-plus-box-outline'
+      }
     },
     methods: {
       getColor (x) {

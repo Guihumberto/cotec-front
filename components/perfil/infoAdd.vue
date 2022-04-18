@@ -34,7 +34,7 @@
                     label="Justificativa"
                     placeholder="Informe o motivo do status paralisado."
                 ></v-textarea>
-                <v-radio-group row>
+                <v-radio-group row v-model="project.execution">
                     Execução: 
                     <v-radio
                     v-for="n in execution"
@@ -43,7 +43,7 @@
                     :value="n"
                     ></v-radio>
                 </v-radio-group>
-                <v-radio-group row>
+                <v-radio-group row v-model="project.priority">
                     Prioridade: 
                     <v-radio
                     v-for="n in priority"
@@ -85,6 +85,7 @@
             addProject(){
                 this.editProject(this.project)
                 this.dialog = false
+                this.$store.dispatch("snackbars/setSnackbars", {text:'Informações adicionais atualizadas', color:'primary', timeout:'3000'})
             }
         },
     }

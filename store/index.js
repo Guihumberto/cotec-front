@@ -7,28 +7,16 @@ export const state = () => ({
         {id: 3, name:'Jose Alencar', mail:'jose@sefaz', senha:'1234'}
     ],
     projecto:{
-        id: '',
-        name: '',
-        profisco: false,
-        priority: '',
-        lider: '',
-        colider: '',
-        type: 0,
-        execution: 0,
-        value: 0,
-        status: 0,
-        sector: '',
-        company: '',
-        object: '',
+        id:'', 
+        name:'', 
+        profisco: false, 
+        priority: '', 
+        lider:'', colider:'', 
+        type: 0, execution: 0, value: 0.00, status: 0, sector: '', company:'', 
+        object:'', 
         justify: ''
       },  
-    projects: [
-        {id: '1', name:'LGPD', profisco: true, priority: '3+', lider:'Joao', colider:'Maria', type: 1, execution: 20, value: 130.000, status: 1, sector: 'COTEC', company:'teste', object:'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real', justify: ''},
-        {id: '2', name:'ITIL', profisco: true, priority: '3', lider:'Joao', colider:'Maria', type: 1, execution: 20, value: 30.000, status: 3, sector: 'COGEF', company:'teste', object:'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real', justify: ''},
-        {id: '3', name:'Pucomex', profisco: true, priority: '1', lider:'Joao', colider:'Maria', type: 2, execution: 50, value: 130.000, status: 2, sector: 'ASDIN', company:'teste', object:'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real', justify: ''},
-        {id: '4', name:'Conta Corrente Parametrizada', profisco: false, priority: '2', lider:'Joao', colider:'Maria', type: 2, execution: 20, value: 300.000, status: 2, company:'teste', sector: 'COTEC', object:'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real', justify: ''},
-        {id: '5', name:'EFD', profisco: false, priority: '2', lider:'Joao', colider:'Maria', type: 1, execution: 80, value: 350.000, status: 1, sector: 'CEGPA', company:'teste', object:'A expressão Lorem ipsum em design gráfico e editoração é um texto padrão em latim utilizado na produção gráfica para preencher os espaços de texto em publicações para testar e ajustar aspectos visuais antes de utilizar conteúdo real', justify: ''},
-    ],
+    projects: [],
     updatesProject:[
         {idUpt: 1, id: 1, user: 1, title:'Integraçao PLADIF', text:'Lorem Ipsulum'},
         {idUpt: 2, id: 2, user: 1, title:'Criação de ambiente', text:'Lorem Ipsulum'},
@@ -58,6 +46,9 @@ export const getters = {
 }
 
 export const mutations = {
+    load(state, payload){
+        state.projects = payload
+    },
     set(state, payload) {
         state.projects.push(payload)
         console.log(state.projects)
@@ -75,16 +66,64 @@ export const mutations = {
 }
 
 export const actions = {
-    setProjects({ commit }, project) {
-        commit('set', project)
+    async cargaAPI({ commit }){
+        try {
+            const res = await fetch('https://cotec-api-default-rtdb.firebaseio.com/projects.json')
+            const dataDB = await res.json()
+            const arrayProjects = []
+
+            for (let id in dataDB){
+                arrayProjects.push(dataDB[id])
+            }
+            console.log(arrayProjects)
+            commit('load', arrayProjects)
+            
+        } catch (error) {
+            console.log(error)
+        }
     },
-    deleteProject({ commit }, id) {
-        commit('delete', id)
+    async setProjects({ commit }, project) {
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${project.id}.json`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(project)
+            })
+
+            const dataDB = await res.json()
+            commit('set', project)
+
+        } catch(error){
+            console.log(error)
+        }
+        
+    },
+    async deleteProject({ commit }, id) {
+        try {
+            await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${id}.json`, {
+                method: 'DELETE',
+            })
+            commit('delete', id)
+        } catch (error) {
+            console.log(error)
+        }
     },
     selectProject({commit}, id){
         commit('select', id)
     },
-    editProject({commit}, project){
-        commit('edit', project)
-    }
+    async editProject({commit}, project){
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${project.id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify(project)
+            })
+
+            const dataDB = await res.json()
+            commit('edit', project)
+        } catch (error) {
+            console.log(error)
+        }
+    },
 }

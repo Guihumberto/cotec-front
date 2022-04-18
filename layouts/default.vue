@@ -40,8 +40,10 @@
       <template v-slot:append>
 
         <v-list-item two-line to="/perfil" v-if="login">
-          <v-list-item-avatar color="indigo">
-            <span class="white--text">JH</span>
+          <v-list-item-avatar >
+            <v-avatar color="indigo">
+              <span class="white--text">JH</span>
+            </v-avatar>
           </v-list-item-avatar>
 
           <v-list-item-content>
@@ -108,7 +110,7 @@
         <v-icon>mdi-bell</v-icon>
       </v-btn>
 
-      <v-btn icon>
+      <v-btn icon to="/perfil" v-if="login">
         <v-icon>mdi-account</v-icon>
       </v-btn>
 
@@ -150,7 +152,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex'
+  import {mapGetters, mapActions} from 'vuex'
 
   export default {
     data(){ 
@@ -175,6 +177,12 @@
         snacks:"snackbars/readSnackbars"
       })
     },
+    methods:{
+      ...mapActions(['cargaAPI']),
+    },
+    created(){
+      this.cargaAPI()
+    }
   }
 </script>
 
