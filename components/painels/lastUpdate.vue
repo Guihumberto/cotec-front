@@ -12,10 +12,12 @@
       <v-list three-line v-show="minus">
         <v-subheader>Mais Recentes</v-subheader>
         <template v-for="item in updates">
+
           <v-list-item :key="item.id">
             <v-list-item-avatar color="indigo">
-              <avatar class="white--text">{{nameproject(item.idProject).substr(0,1)}}</avatar>
+              <span class="white--text">{{nameproject(item.idProject).substr(0,1)}}</span>
             </v-list-item-avatar>
+
             <v-list-item-content>
               <v-list-item-title> {{nameproject(item.idProject)}} </v-list-item-title>
               <v-list-item-subtitle> <span style="text-transform:uppercase" >{{item.title}}</span> - {{item.text}}</v-list-item-subtitle>
