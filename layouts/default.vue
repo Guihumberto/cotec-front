@@ -40,10 +40,8 @@
       <template v-slot:append>
 
         <v-list-item two-line to="/perfil" v-if="login">
-          <v-list-item-avatar >
-            <v-avatar color="indigo">
+          <v-list-item-avatar color="indigo">
               <span class="white--text">JH</span>
-            </v-avatar>
           </v-list-item-avatar>
 
           <v-list-item-content>
