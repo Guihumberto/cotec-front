@@ -14,15 +14,15 @@
         <template v-for="item in updates">
           <v-list-item :key="item.id">
             <v-list-item-avatar color="indigo">
-              <avatar class="white--text">{{nameproject(item.id).substr(0,1)}}</avatar>
+              <avatar class="white--text">{{nameproject(item.idProject).substr(0,1)}}</avatar>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title> {{nameproject(item.id)}} </v-list-item-title>
-              <v-list-item-subtitle>{{item.title}} - {{item.text}}</v-list-item-subtitle>
+              <v-list-item-title> {{nameproject(item.idProject)}} </v-list-item-title>
+              <v-list-item-subtitle> <span style="text-transform:uppercase" >{{item.title}}</span> - {{item.text}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
               <small>data/hora</small>
-              <small>12/12/2021 12:00</small>
+              <small>{{item.time}}</small>
             </v-list-item-action>
           </v-list-item>
            <v-divider inset></v-divider>
@@ -46,7 +46,7 @@
     },
     computed:{
       updates(){
-        return this.$store.getters.readUpdates
+        return this.$store.getters.readUpdates.slice().reverse()
       },
       minusMax(){
         return this.minus 
@@ -56,8 +56,10 @@
     },
     methods:{
       nameproject(x){
-        const name = this.projects.filter(el => el.id == x)
+        let name = 'Nome'
+        name = this.projects.filter(el => el.id == x)
         return name[0].name
+      
       }
     }
   }

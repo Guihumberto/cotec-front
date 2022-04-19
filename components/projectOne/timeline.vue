@@ -1,6 +1,6 @@
 <template>
   <v-container style="max-width: 700px;">
-    <h2 class="headline ligheten-1">Atualizações do Projeto - {{project.name}}</h2>
+    <h2 class="headline ligheten-1">Atualização do Projeto - {{project.name}}</h2>
     <v-timeline
       dense
       clipped
@@ -14,25 +14,42 @@
         <template v-slot:icon>
           <span>JH</span>
         </template>
-        <v-text-field
-          v-model="input"
-          hide-details
-          flat
-          label="Insira uma atualização do projeto..."
-          solo
-          @keydown.enter="comment"
-        >
-          <template v-slot:append>
-            <v-btn
-              class="mx-0"
-              color="primary"
-              depressed
-              @click="comment"
+        <v-card flat outlined max-width="600">
+          <v-card-text>
+            <v-text-field
+              v-model="title"
+              hide-details
+              flat
+              label="Título da atualização"
+              dense
+              solo
+              outlined
+              @keydown.enter="comment"
             >
-              Enviar
-            </v-btn>
-          </template>
-        </v-text-field>
+            </v-text-field>
+            <v-text-field
+              v-model="text"
+              hide-details
+              flat
+              label="Insira o texto da atualização do projeto..."
+              solo
+              outlined dense
+              class="my-2"
+              @keydown.enter="comment"
+            >
+            </v-text-field>
+            <v-card-actions>
+              <v-btn 
+                color="primary"
+                depressed
+                @click="comment"
+                block
+              >
+                Enviar
+              </v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-card>
       </v-timeline-item>
 
       <v-slide-x-transition
@@ -47,14 +64,16 @@
         >
           <v-row justify="space-between">
             <v-col
-              cols="7"
-              v-text="event.text"
-            ></v-col>
+              cols="6"
+            > <span style="text-transform: uppercase" >{{event.title}}</span> - {{event.text}} </v-col>
             <v-col
               class="text-right"
               cols="5"
               v-text="event.time"
             ></v-col>
+            <v-col  cols="1" class="text-right">
+              <forms-confirmation :id="event" @action="deleteUpdate($event)" />
+            </v-col>
           </v-row>
         </v-timeline-item>
       </v-slide-x-transition>
@@ -63,27 +82,7 @@
         class="mb-6"
         hide-dot
       >
-        <span>Últimas Atualizações</span>
-      </v-timeline-item>
-
-      <v-timeline-item
-        v-for="item in updates" :key="item.idUpt"
-        class="mb-4"
-        color="grey"
-        icon-color="grey lighten-2"
-        small
-      >
-        <v-row justify="space-between">
-          <v-col cols="7">
-            {{item.title}} - {{item.text}}
-          </v-col>
-          <v-col
-            class="text-right"
-            cols="5"
-          >
-             12/12/2021 15:26
-          </v-col>
-        </v-row>
+        <span> {{events ? 'Últimas Atualizações' : 'Não há atualizações inseridas neste projeto'}}</span>
       </v-timeline-item>
       
     </v-timeline>
@@ -91,41 +90,50 @@
 </template>
 
 <script>
+  const shortid = require('shortid');
+  import {mapActions} from 'vuex'
+
   export default {
     data: () => ({
       events: [],
-      input: null,
-      nonce: 0,
+      title: null,
+      text: null,
+      nonce: 0
     }),
 
     props:{
-      project: Object
+      project: true
     },
 
     computed: {
       timeline () {
-        return this.events.slice().reverse()
+        return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
       },
-      updates(){
-        let res
-        res = this.$store.getters.readUpdates.filter(x => x.id == this.project.id)
-
-        return res
-      },
+      idProject(){
+        return this.$route.query.id
+      }
     },
 
     methods: {
+      ...mapActions(['deleteUpdate', 'addUpdate']),
       comment () {
         const time = (new Date()).toTimeString()
-        this.events.push({
-          id: this.nonce++,
-          text: this.input,
+        let event = {
+          id: shortid.generate(),
+          title: this.title,
+          idProject: this.idProject,
+          IdUser: 1,
+          text: this.text,
           time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, offset) => {
             return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
           }),
-        })
+        }
+        this.events.push(event)
+        this.addUpdate(event)
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Atualização inserida com sucesso', color:'primary', timeout:'3000'})
 
-        this.input = null
+        this.text = null
+        this.title = null
       },
     },
   }

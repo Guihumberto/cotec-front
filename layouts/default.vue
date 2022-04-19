@@ -178,10 +178,11 @@
       })
     },
     methods:{
-      ...mapActions(['cargaAPI']),
+      ...mapActions(['cargaAPI', 'cargaUpdate']),
     },
     created(){
       this.cargaAPI()
+      this.cargaUpdate()
     }
   }
 </script>

@@ -54,9 +54,6 @@ import perfil from '../../pages/perfil.vue';
         },
         methods:{
             ...mapActions(['deleteProject']),
-            delete(){
-                
-            }
         }
     }
 </script>
