@@ -40,7 +40,7 @@
       <template v-slot:append>
 
         <v-list-item two-line to="/perfil" v-if="login">
-          <v-list-item-avatar color="indigo">
+          <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text">JH</span>
           </v-list-item-avatar>
 
@@ -207,6 +207,9 @@
     .verticalTag{
       border-right: 5px solid rgb(26, 125, 57);
       margin-right: 2px;
+    }
+    .align_avatar{
+      padding: 16px;
     }
 
 </style>

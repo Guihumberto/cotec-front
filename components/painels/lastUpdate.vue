@@ -14,7 +14,7 @@
         <template v-for="item in updates">
 
           <v-list-item :key="item.id">
-            <v-list-item-avatar color="indigo">
+            <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text">{{nameproject(item.idProject).substr(0,1)}}</span>
             </v-list-item-avatar>
 
