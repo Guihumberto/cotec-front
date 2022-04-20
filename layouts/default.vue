@@ -131,9 +131,22 @@
 
       <div v-else> <forms-login :typeBtn="false" /> </div>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+     <v-menu
+      transition="slide-x-transition"
+      bottom
+      right
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          v-on="on"
+          icon
+        >
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <items-menuList />
+      </v-menu>
     </v-app-bar>
 
     <v-main class="grey lighten-4">
