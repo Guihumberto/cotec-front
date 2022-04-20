@@ -7,9 +7,13 @@
           v-bind="attrs"
           v-on="on"
           block
+          v-if="typeBtn"
         >
           <v-icon small class="mr-2">mdi-account</v-icon>
           Entrar
+        </v-btn>
+        <v-btn v-else  v-bind="attrs" v-on="on" text dark>
+            Entrar
         </v-btn>
       </template>
         <v-card hover>
@@ -28,11 +32,10 @@
                         <v-icon>mdi-close</v-icon>
                     </v-btn>
                 </v-toolbar>
-                <v-card-text>
+                <v-card-text class="mt-2">
                     <v-form @submit.prevent="onSubmit" ref="form">
                         <v-text-field
-                            v-if="!isLogin"
-                            label="email"
+                            label="e-mail"
                             prepend-icon="mdi-email"
                             type="text"
                             v-model.trim="userInfo.email"
@@ -40,6 +43,7 @@
                         >
                         </v-text-field>
                         <v-text-field
+                            v-if="false"
                             label="Login"
                             prepend-icon="mdi-account"
                             type="text"
@@ -82,6 +86,9 @@
 </template>
 
 <script>
+
+    import {mapActions} from 'vuex'
+
 export default {
     data(){
         return{
@@ -92,9 +99,9 @@ export default {
             showSnackbar: false,
             msgSnackBar: "",
             userInfo: {
-                email:'',
+                email:'juninho.joao@hotmail.com',
                 identifier:'',
-                password:'',
+                password:'Guilherme@12',
             },
             rules: {
                 required: (value) => !!value || "Campo obrigatório",
@@ -105,6 +112,9 @@ export default {
             },
         }
     },
+    props:{
+        typeBtn: Boolean
+    },
     computed:{
         texts (){
             return this.isLogin
@@ -113,12 +123,28 @@ export default {
         },
     },
     methods:{
+        ...mapActions(['register', 'loginUser']),
         close(){
             // this.$emit('closeDialog', false)
             // this.$refs.form.reset()
         },
-        async onSubmit(){
+        onSubmit(){
             if (this.$refs.form.validate()) {
+                if(this.isLogin){
+                    this.userInfo.email = this.userInfo.email.toLowerCase()
+                    this.loginUser(this.userInfo)
+                    this.clearFields()
+                    this.dialog = false
+                    this.$emit('barLeft')
+                    this.$store.dispatch("snackbars/setSnackbars", {text:'Bem-vindo ao sistema de projetos!', color:'success'})
+                } else {
+                    this.userInfo.email = this.userInfo.email.toLowerCase()
+                    this.userInfo.identifier = this.userInfo.identifier.charAt(0).toUpperCase() + this.userInfo.identifier.slice(1)
+                    this.register(this.userInfo)
+                    this.clearFields()
+                    this.dialog = false
+                    this.$emit('barLeft')
+                }
                 // if(this.isLogin){
                 //     this.isLoading = true
                 //     await this.$auth.loginWith("local", {data:this.userInfo})
@@ -149,6 +175,11 @@ export default {
                 //     })
                 // }
             }
+        },
+        clearFields(){
+            this.userInfo.email = ''
+            this.userInfo.identifier = ''
+            this.userInfo.password = ''
         }
     }
 }

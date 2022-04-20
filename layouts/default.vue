@@ -39,7 +39,7 @@
 
       <template v-slot:append>
 
-        <v-list-item two-line to="/perfil" v-if="login">
+        <v-list-item two-line to="/perfil" v-if="user">
           <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text">JH</span>
           </v-list-item-avatar>
@@ -55,14 +55,14 @@
 
         <v-divider></v-divider>
 
-        <div class="pa-2 text-center" v-if="login">
-          <v-btn small color="error" icon @click="login = !login"><v-icon>mdi-logout</v-icon></v-btn>
+        <div class="pa-2 text-center" v-if="user">
+          <v-btn small color="error" icon @click="closeLogin"><v-icon>mdi-logout</v-icon></v-btn>
           <v-btn small icon><v-icon small>mdi-tools</v-icon></v-btn>
-          <v-btn small color="primary lighten-1">Meus Projetos</v-btn>
+          <v-btn small color="primary lighten-1" to="/perfil">Meus Projetos</v-btn>
         </div>
 
         <div class="pa-2" v-else>
-          <forms-login />
+          <forms-login @barLeft="drawer = false" :typeBtn="true" />
         </div>
 
       </template>
@@ -104,13 +104,32 @@
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-bell</v-icon>
-      </v-btn>
+      <div v-if="user" class="d-flex">
+        <v-btn icon>
+          <v-icon>mdi-bell</v-icon>
+        </v-btn>
 
-      <v-btn icon to="/perfil" v-if="login">
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+        <v-menu
+          v-if="login"
+          v-model="menuPerfil"
+          :close-on-content-click="false"
+          :nudge-width="200"
+          offset-y
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              icon
+            >
+              <v-icon>mdi-account</v-icon>
+            </v-btn>
+          </template>
+          <items-perfilBox @logoff="closeLogin()" @closeBox="menuPerfil = false"/>
+        </v-menu>
+      </div>
+
+      <div v-else> <forms-login :typeBtn="false" /> </div>
 
       <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
@@ -156,6 +175,7 @@
     data(){ 
       return{
         drawer: false,
+        menuPerfil: false,
         titleApp:"COTEC",
         institute: "SEFAZ-MA",
         login: true,
@@ -171,12 +191,18 @@
         }
     },
     computed:{
-      ...mapGetters({
-        snacks:"snackbars/readSnackbars"
-      })
+      ...mapGetters({snacks:"snackbars/readSnackbars"}),
+      user(){
+        return this.$store.getters.readUser
+      }
     },
     methods:{
-      ...mapActions(['cargaAPI', 'cargaUpdate']),
+      ...mapActions(['cargaAPI', 'cargaUpdate', 'closeSession']),
+      closeLogin(){
+        this.closeSession()
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Sessão encerrada', color:'error'})
+        this.drawer = false
+      }
     },
     created(){
       this.cargaAPI()

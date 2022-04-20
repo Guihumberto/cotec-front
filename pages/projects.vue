@@ -16,12 +16,12 @@ export default {
                 {
                     text: 'Home',
                     disabled: false,
-                    href: '/',
+                    to: '/',
                 },
                 {
                     text: 'Projetos',
                     disabled: true,
-                    href: '/projects',
+                    to: '/projects',
                 },
             ]
         }

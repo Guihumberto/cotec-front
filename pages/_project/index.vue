@@ -108,17 +108,17 @@ export default {
                 {
                     text: 'Home',
                     disabled: false,
-                    href: '/',
+                    to: '/',
                 },
                 {
                     text: 'Projetos',
                     disabled: false,
-                    href: '/projects',
+                    to: '/projects',
                 },
                 {
-                    text: 'Nome do Projeto',
+                    text: `${this.$route.params.project}`,
                     disabled: true,
-                    href: '/id',
+                    to: '/id',
                 },
             ]
         }

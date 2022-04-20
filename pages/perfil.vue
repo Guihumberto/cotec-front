@@ -1,6 +1,6 @@
 <template>
     <v-container style="max-width:1080px;">
-        <pageItem-breadcrumbs class="mx-0 px-1 py-2"/>
+        <pageItem-breadcrumbs class="mx-0 px-1 py-2" :breadcrumbs="breadcrumbs" />
         <h1 class="my-2"><span class="box" /><span class="box1" /><span class="box2" />Perfil e Projetos</h1>
 
         <v-tabs>
@@ -27,3 +27,24 @@
 
     </v-container>
 </template>
+
+<script>
+export default {
+    data(){
+        return{
+            breadcrumbs:[
+                {
+                    text: 'Home',
+                    disabled: false,
+                    to: '/',
+                },
+                {
+                    text: 'Perfil e Projetos',
+                    disabled: true,
+                    to: '/perfil',
+                },
+            ]
+        }
+    }
+}
+</script>

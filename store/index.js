@@ -1,6 +1,7 @@
 export const strict = false
 
 export const state = () => ({
+    user: null, 
     users:[
         {id: 1, name:'Joao Silva', mail:'joao@sefaz', senha:'1234'},
         {id: 2, name:'Maria Ribeiro', mail:'maria@sefaz', senha:'1234'},
@@ -21,6 +22,9 @@ export const state = () => ({
 })
 
 export const getters = {
+    readUser(state){
+        return !!state.user
+    },
     readProjects(state){
         return state.projects
     },
@@ -33,6 +37,9 @@ export const getters = {
 }
 
 export const mutations = {
+    setUser(state, payload){
+        state.user = payload
+    },
     load(state, payload){
         state.projects = payload
     },
@@ -62,7 +69,82 @@ export const mutations = {
 }
 
 export const actions = {
+      closeSession({ commit }) {
+        commit('setUser', null)
+        this.$router.push('/')
+        localStorage.removeItem('usuario')
+      },
+      async loginUser({ commit }, user) {
+        try {
+          const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
+            method: 'POST',
+            body: JSON.stringify({
+              email: user.email,
+              password: user.password,
+              returnSecureToken: true
+            })
+          })
+          const userDB = await res.json()
+          console.log('userDB', userDB)
+          if (userDB.error) {
+            return console.log(userDB.error)
+          }
+          commit('setUser', userDB)
+          this.$router.push('/')
+          localStorage.setItem('usuario', JSON.stringify(userDB))
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async register({ commit }, user) {
+        try {
+          const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
+            method: 'POST',
+            body: JSON.stringify({
+              email: user.email,
+              password: user.password,
+              returnSecureToken: true
+            })
+          })
+          const userDB = await res.json()
+          console.log(userDB)
+          if (userDB.error) {
+            console.log(userDB.error)
+            return
+          }
+          commit('setUser', userDB)
+          this.$router.push('/')
+          localStorage.setItem('usuario', JSON.stringify(userDB))
+
+        } catch (error) {
+          console.log(error)
+        }
+      },
+      async loadLocalStorage({ commit, state }) {
+        if (localStorage.getItem('usuario')) {
+          commit('setUser', JSON.parse(localStorage.getItem('usuario')))
+        } else {
+          return commit('setUser', null)
+        }
+        // try {
+        //   const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${state.user.localId}.json?auth=${state.user.idToken}`)
+        //   const dataDB = await res.json()
+        //   const arrayTareas = []
+        //   for (let id in dataDB){
+        //     arrayTareas.push(dataDB[id])
+        //   }
+        //   commit('cargar', arrayTareas)
+  
+        // } catch (error) {
+        //   console.log(error)
+        // }
+      },
     async cargaAPI({ commit }){
+        if (localStorage.getItem('usuario')) {
+            commit('setUser', JSON.parse(localStorage.getItem('usuario')))
+          } else {
+            commit('setUser', null)
+          }
         try {
             const res = await fetch('https://cotec-api-default-rtdb.firebaseio.com/projects.json')
             const dataDB = await res.json()

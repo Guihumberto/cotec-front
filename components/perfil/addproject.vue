@@ -128,9 +128,13 @@ export default {
   methods:{
       ...mapActions(['setProjects']),
       submit(){
-        console.log(this.project)
-        //gerar id
+        
+        //gerar id e tratar dados forms
         this.project.id = shortid.generate()
+        this.project.name = this.project.name.charAt(0).toUpperCase() + this.project.name.slice(1)
+        this.project.lider = this.project.lider.charAt(0).toUpperCase() + this.project.lider.slice(1)
+        this.project.colider = this.project.colider.charAt(0).toUpperCase() + this.project.colider.slice(1)
+        this.project.sector = this.project.sector.toUpperCase()
 
         //gravar dados
         this.setProjects(this.project)

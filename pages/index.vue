@@ -19,7 +19,7 @@ export default {
                 {
                     text: 'Home',
                     disabled: true,
-                    href: '/',
+                    to: '/',
                 },
             ]
         }
