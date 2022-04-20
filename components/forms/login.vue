@@ -99,9 +99,9 @@ export default {
             showSnackbar: false,
             msgSnackBar: "",
             userInfo: {
-                email:'juninho.joao@hotmail.com',
+                email:'',
                 identifier:'',
-                password:'Guilherme@12',
+                password:'',
             },
             rules: {
                 required: (value) => !!value || "Campo obrigatório",
