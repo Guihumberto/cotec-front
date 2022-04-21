@@ -76,7 +76,7 @@ export const actions = {
     this.$router.push('/')
     localStorage.removeItem('usuario')
     },
-    async loginUser({ commit }, user) {
+    async loginUser({ commit, dispatch }, user) {
     try {
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
         method: 'POST',
@@ -89,16 +89,17 @@ export const actions = {
         const userDB = await res.json()
         console.log('userDB', userDB)
         if (userDB.error) {
+        dispatch("snackbars/setSnackbars", {text:'Usuário ou senha inválido.', color:'error'})
         return console.log(userDB.error)
         }
         commit('setUser', userDB)
-        this.$router.push('/')
+        this.$router.push( this.$route.query.redirect || '/' )
         localStorage.setItem('usuario', JSON.stringify(userDB))
     } catch (error) {
         console.log(error)
     }
     },
-    async register({ commit }, user) {
+    async register({ commit, dispatch }, user) {
     try {
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
         method: 'POST',
@@ -111,6 +112,7 @@ export const actions = {
         const userDB = await res.json()
         console.log(userDB)
         if (userDB.error) {
+        dispatch("snackbars/setSnackbars", {text:'E-mail já possui cadastrado.', color:'error'})
         console.log(userDB.error)
         return
         }
