@@ -37,7 +37,7 @@
         {{ status(item.status) }}
     </template>
     <template v-slot:item.type="{ item }">
-      {{ item.type == 1 ? 'Sistema' : 'Infra' }}
+      {{ typeProject(item.type) }}
     </template>
   </v-data-table>
   </v-expand-transition>
@@ -65,7 +65,7 @@
           { text: 'Colíder', value: 'colider', class:'indigo darken-4 white--text'},
           { text: 'Tipo', value: 'type', align: 'center', class:'indigo darken-4 white--text'},
           { text: 'Status', value: 'status', align: 'center', class:'indigo darken-4 white--text'},
-          { text: 'Execução', value: 'execution', align: 'center', class:'indigo darken-4 white--text'},
+          { text: 'Execução (%)', value: 'execution', align: 'center', class:'indigo darken-4 white--text'},
         ],
       }
     },
@@ -107,8 +107,12 @@
           default:
             return 'nao encontrado'
         }
-
-       
+      },
+      typeProject(x){
+        if( x == 1) { return 'Sistema'}
+        if( x == 2) { return 'Infra'}
+        if( x == 3) { return 'Outros'}
+        
       }
     },
   }

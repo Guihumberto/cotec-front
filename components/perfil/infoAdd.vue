@@ -23,6 +23,8 @@
                     v-model="project.status"
                     :rules="[() => !!project.status || 'This field is required']"
                     :items="status"
+                    item-value="value"
+                    item-text="name"
                     label="Status"
                     placeholder="Selecione..."
                     required
@@ -72,7 +74,12 @@
         data(){
             return{
                 dialog: false,  
-                status: [0, 1, 2, 3, 99], 
+                status: [
+                    {value: 1, name: 'Não Iniciado'},
+                    {value: 2, name: 'em andamento'},
+                    {value: 3, name: 'Concluído'},
+                    {value: 4, name: 'Paralisado'},
+                ],
                 execution: [0, 20, 40, 60, 80, 100],
                 priority: ['1', '2', '3+'],
             }

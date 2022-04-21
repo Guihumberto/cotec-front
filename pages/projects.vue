@@ -32,9 +32,26 @@ export default {
         },
         filtro(){
             if(this.dataSearch){
-                let filtro
-                let exp = new RegExp(this.dataSearch.search.trim().replace(/[\[\]!'@,><|://\\;&*()_+=]/g, ""), "i")
-                filtro = this.projects.filter(project => exp.test(project.name))
+                const projects = this.projects
+                let filtro = this.dataSearch
+                //let exp = new RegExp(projects.search.trim().replace(/[\[\]!'@,><|://\\;&*()_+=]/g, ""), "i")
+                //filtro = filtro.filter(project => exp.test(project.name))
+                filtro.profisco 
+                ? filtro = projects.filter(project => project.profisco == true)
+                : filtro = projects
+                if(this.dataSearch.search){
+                    let exp = new RegExp(this.dataSearch.search.trim().replace(/[\[\]!'@,><|://\\;&*()_+=]/g, ""), "i")
+                    filtro = filtro.filter(project => exp.test(project.name))
+                }
+                if(this.dataSearch.status){
+                    filtro = filtro.filter(project => project.status == this.dataSearch.status)
+                } 
+                if(this.dataSearch.type){
+                    filtro = filtro.filter(project => project.type == this.dataSearch.type)
+                } 
+                if(this.dataSearch.priority){
+                    filtro = filtro.filter(project => project.priority == this.dataSearch.priority)
+                } 
                 return filtro
             } else {
                 return this.projects
