@@ -173,7 +173,7 @@
       </v-snackbar>
     </v-main>
 
-    <v-footer padless app color="#42a047" dark>
+    <v-footer padless color="#42a047" dark>
       <v-img
           gradient="to top right, rgba(55,236,186,.7), rgba(25,32,72,.7)"
         >
