@@ -18,7 +18,7 @@
         <v-divider></v-divider>
         <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn small icon @click="alert" :color="notification ? 'warning':'secondary lighten-3'" > <v-icon small>mdi-bell</v-icon> </v-btn> 
+            <v-btn small v-show="false" icon @click="alert" :color="notification ? 'warning':'secondary lighten-3'" > <v-icon small>mdi-bell</v-icon> </v-btn> 
             <v-btn small color="success" :to="{
                         name: 'project',
                         params:{project: project.name},

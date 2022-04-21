@@ -4,16 +4,24 @@
       v-model="drawer"
       app
     >
+    <v-card flat tile>
+        <v-img
+          height="100px"
+          src="https://live.staticflickr.com/2785/4281134496_4b821c0254_b.jpg"
+          gradient="to top right, rgba(55,236,186,.7), rgba(25,32,72,.7)"
+        >
       <v-list-item>
-        <v-list-item-content>
+        <v-list-item-content class="white--text">
           <v-list-item-title class="text-h6">
             {{institute}}
           </v-list-item-title>
-          <v-list-item-subtitle>
+          <v-list-item-subtitle class="white--text">
             {{titleApp}}
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+      </v-img>
+    </v-card>
 
       <v-divider></v-divider>
 
@@ -99,12 +107,12 @@
         </v-col>
       </v-expand-x-transition>
 
-      <v-btn icon @click="searchBar = true" v-show="!searchBar">
+      <v-btn icon @click="searchBar = true" v-show="false">
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
 
       <div v-if="user" class="d-flex">
-        <v-btn icon>
+        <v-btn icon v-show="false">
           <v-icon>mdi-bell</v-icon>
         </v-btn>
 
