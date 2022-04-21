@@ -22,9 +22,11 @@
               <v-list-item-title> {{nameproject(item.idProject)}} </v-list-item-title>
               <v-list-item-subtitle> <span style="text-transform:uppercase" >{{item.title}}</span> - {{item.text}}</v-list-item-subtitle>
             </v-list-item-content>
-            <v-list-item-action>
-              <small>data/hora</small>
-              <small>{{item.time}}</small>
+            <v-list-item-action class="text-center">
+              <small> <v-icon x-small>mdi-clock</v-icon> data/hora</small>
+              <small> 
+                {{item.time.data}} <br> {{item.time.hora}}
+              </small>
             </v-list-item-action>
           </v-list-item>
            <v-divider inset></v-divider>

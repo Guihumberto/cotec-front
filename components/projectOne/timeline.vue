@@ -76,8 +76,9 @@
             <v-col
               class="text-right"
               cols="5"
-              v-text="event.time"
-            ></v-col>
+            >
+            {{event.time.data}} <br> {{event.time.hora}}
+            </v-col>
             <v-col  cols="1" class="text-right">
               <forms-confirmation :id="event" @action="deleteUpdate($event)" />
             </v-col>
@@ -127,16 +128,14 @@
     methods: {
       ...mapActions(['deleteUpdate', 'addUpdate']),
       comment () {
-        const time = (new Date()).toTimeString()
+        const time = new Date()
         let event = {
           id: shortid.generate(),
           title: this.title,
           idProject: this.idProject,
           IdUser: 1,
           text: this.text,
-          time: time.replace(/:\d{2}\sGMT-\d{4}\s\((.*)\)/, (match, contents, offset) => {
-            return ` ${contents.split(' ').map(v => v.charAt(0)).join('')}`
-          }),
+          time: { data: time.toLocaleDateString('pt-BR'), hora: time.toLocaleTimeString('pt-BR')}
         }
         this.events.push(event)
         this.addUpdate(event)
