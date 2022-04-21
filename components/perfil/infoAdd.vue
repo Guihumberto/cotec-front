@@ -81,7 +81,7 @@
                     {value: 4, name: 'Paralisado'},
                 ],
                 execution: [0, 20, 40, 60, 80, 100],
-                priority: ['1', '2', '3+'],
+                priority: ['1', '2', '3', '3+'],
             }
         },
         props:{

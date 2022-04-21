@@ -105,7 +105,7 @@
             return 'Paralisado'
             break;
           default:
-            return 'nao encontrado'
+            return 'não informado'
         }
       },
       typeProject(x){

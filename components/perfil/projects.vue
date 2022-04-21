@@ -31,7 +31,7 @@
     },
     computed:{
       projects(){
-        return this.$store.getters.readProjects
+        return this.$store.getters.readProjects.reverse()
       }
     },
     methods:{
