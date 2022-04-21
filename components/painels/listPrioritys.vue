@@ -22,7 +22,7 @@
         :color="getColor(item.priority)"
         dark small
       >
-        {{ item.priority }}
+        {{ item.priority  }}
       </v-chip>
     </template>
     <template v-slot:item.profisco="{ item }">

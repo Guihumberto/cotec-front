@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - cotec-front',
-    title: 'cotec-front',
+    titleTemplate: '%s - COTEC',
+    title: 'Controle de Projetos',
     htmlAttrs: {
       lang: 'en'
     },

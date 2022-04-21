@@ -42,9 +42,9 @@
                                 ></v-radio>
                         </v-radio-group>
                     </v-col>
-                    <v-col cols="12" sm="4" class="my-0 py-0">
+                    <v-col cols="12" sm="4" class="my-0 py-0" title="Prioridades">
                         <v-radio-group v-model="filter.priority" row> 
-                            <v-icon color="error" class="pr-2">mdi-arrow-up-circle</v-icon>
+                            <v-icon title="Prioridades" color="error" class="pr-2">mdi-arrow-up-circle</v-icon>
                             <v-radio label="3+" value="3+" @click="search"></v-radio>
                             <v-radio label="3" value="3" @click="search"></v-radio>
                             <v-radio label="2" value="2" @click="search"></v-radio>
