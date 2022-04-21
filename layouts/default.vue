@@ -56,8 +56,7 @@
         <v-divider></v-divider>
 
         <div class="pa-2 text-center" v-if="user">
-          <v-btn small color="error" icon @click="closeLogin"><v-icon>mdi-logout</v-icon></v-btn>
-          <v-btn small icon><v-icon small>mdi-tools</v-icon></v-btn>
+          <v-btn small outlined color="error" text @click="closeLogin"><v-icon small>mdi-logout</v-icon> Sair</v-btn>
           <v-btn small color="primary lighten-1" to="/perfil">Meus Projetos</v-btn>
         </div>
 
@@ -171,11 +170,12 @@
           gradient="to top right, rgba(55,236,186,.7), rgba(25,32,72,.7)"
         >
         <v-col
-          class="text-center"
+          class="text-center mb-0 pb-0"
           cols="12"
         >
           {{ new Date().getFullYear() }} — <strong>{{titleApp}}</strong>
         </v-col>
+        <v-col cols="12" class="mt-0 pt-0 text-center">Secretaria do Estado da Fazenda - SEFAZ</v-col>
     </v-img>
   </v-footer>
   </v-app>
@@ -217,7 +217,7 @@
         this.drawer = false
       }
     },
-    created(){
+    fetch(){
       this.cargaAPI()
       this.cargaUpdate()
     }

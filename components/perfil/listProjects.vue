@@ -1,12 +1,19 @@
 <template>
     <v-card-text>
+        <v-card flat>
+            <v-text-field v-model="search.search" clearable prepend-inner-icon="mdi-magnify" outlined dense label="Buscar" solo></v-text-field>
+            <v-checkbox class="ma-0 pa-0"
+            label="Profisco"
+            v-model="search.profisco"
+            ></v-checkbox>
+        </v-card>
             <v-list two-line>
                 <v-list-item-group
                     v-model="selected"
                     active-class="pink--text"
                     multiple
                 >
-                    <template v-for="(item, index) in projects">
+                    <template v-for="(item, index) in searchProjects">
                     <v-list-item :key="item.name">
                         <template v-slot:default="{ active }">
                         <v-list-item-content>
@@ -43,17 +50,33 @@ import {mapActions} from 'vuex';
 import perfil from '../../pages/perfil.vue';
 
     export default {
-  components: { perfil },
-        data(){
-            return{
-                selected:[2],
+    components: { perfil },
+            data(){
+                return{
+                    selected:[2],
+                    search:{
+                        search: '',
+                        profisco: false
+                    }
+                }
+            },
+            props:{
+                projects: Array
+            },
+            computed:{
+                searchProjects(){
+                    if(this.search.profisco || this.search.search){
+                       let exp = new RegExp(this.search.search.trim().replace(/[\[\]!'@,><|://\\;&*()_+=]/g, ""), "i")
+                       let res = this.projects.filter( el => el.profisco === this.search.profisco)
+                       res = res.filter(project => exp.test(project.name))
+                       return res 
+                    } else {
+                       return this.projects
+                    }
+                }
+            },
+            methods:{
+                ...mapActions(['deleteProject']),
             }
-        },
-        props:{
-            projects: Array
-        },
-        methods:{
-            ...mapActions(['deleteProject']),
         }
-    }
 </script>

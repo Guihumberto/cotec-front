@@ -12,10 +12,10 @@
         large
       >
         <template v-slot:icon>
-          <span>JH</span>
+          <span v-if="userLogin">JH</span>
         </template>
         <v-card flat outlined max-width="600">
-          <v-card-text>
+          <v-card-text v-if="userLogin">
             <v-text-field
               v-model="title"
               hide-details
@@ -49,6 +49,13 @@
               </v-btn>
             </v-card-actions>
           </v-card-text>
+          <v-alert
+              v-else
+            border="top"
+            colored-border
+            type="info" 
+          >Faça login para inserir dados de atualização do Projeto.
+          </v-alert>
         </v-card>
       </v-timeline-item>
 
@@ -111,6 +118,9 @@
       },
       idProject(){
         return this.$route.query.id
+      },
+      userLogin(){
+        return this.$store.getters.readUser
       }
     },
 

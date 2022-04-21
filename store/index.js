@@ -1,3 +1,5 @@
+import { db } from "@/plugins/firebase.js"
+
 export const strict = false
 
 export const state = () => ({
@@ -69,76 +71,76 @@ export const mutations = {
 }
 
 export const actions = {
-      closeSession({ commit }) {
-        commit('setUser', null)
+    closeSession({ commit }) {
+    commit('setUser', null)
+    this.$router.push('/')
+    localStorage.removeItem('usuario')
+    },
+    async loginUser({ commit }, user) {
+    try {
+        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
+        method: 'POST',
+        body: JSON.stringify({
+            email: user.email,
+            password: user.password,
+            returnSecureToken: true
+        })
+        })
+        const userDB = await res.json()
+        console.log('userDB', userDB)
+        if (userDB.error) {
+        return console.log(userDB.error)
+        }
+        commit('setUser', userDB)
         this.$router.push('/')
-        localStorage.removeItem('usuario')
-      },
-      async loginUser({ commit }, user) {
-        try {
-          const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
-            method: 'POST',
-            body: JSON.stringify({
-              email: user.email,
-              password: user.password,
-              returnSecureToken: true
-            })
-          })
-          const userDB = await res.json()
-          console.log('userDB', userDB)
-          if (userDB.error) {
-            return console.log(userDB.error)
-          }
-          commit('setUser', userDB)
-          this.$router.push('/')
-          localStorage.setItem('usuario', JSON.stringify(userDB))
-        } catch (error) {
-          console.log(error)
+        localStorage.setItem('usuario', JSON.stringify(userDB))
+    } catch (error) {
+        console.log(error)
+    }
+    },
+    async register({ commit }, user) {
+    try {
+        const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
+        method: 'POST',
+        body: JSON.stringify({
+            email: user.email,
+            password: user.password,
+            returnSecureToken: true
+        })
+        })
+        const userDB = await res.json()
+        console.log(userDB)
+        if (userDB.error) {
+        console.log(userDB.error)
+        return
         }
-      },
-      async register({ commit }, user) {
-        try {
-          const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
-            method: 'POST',
-            body: JSON.stringify({
-              email: user.email,
-              password: user.password,
-              returnSecureToken: true
-            })
-          })
-          const userDB = await res.json()
-          console.log(userDB)
-          if (userDB.error) {
-            console.log(userDB.error)
-            return
-          }
-          commit('setUser', userDB)
-          this.$router.push('/')
-          localStorage.setItem('usuario', JSON.stringify(userDB))
+        commit('setUser', userDB)
+        this.$router.push('/')
+        localStorage.setItem('usuario', JSON.stringify(userDB))
 
-        } catch (error) {
-          console.log(error)
-        }
-      },
-      async loadLocalStorage({ commit, state }) {
-        if (localStorage.getItem('usuario')) {
-          commit('setUser', JSON.parse(localStorage.getItem('usuario')))
-        } else {
-          return commit('setUser', null)
-        }
-        // try {
-        //   const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${state.user.localId}.json?auth=${state.user.idToken}`)
-        //   const dataDB = await res.json()
-        //   const arrayTareas = []
-        //   for (let id in dataDB){
-        //     arrayTareas.push(dataDB[id])
-        //   }
-        //   commit('cargar', arrayTareas)
-  
-        // } catch (error) {
-        //   console.log(error)
-        // }
-      },
+    } catch (error) {
+        console.log(error)
+    }
+    },
+    async loadLocalStorage({ commit }) {
+    if (localStorage.getItem('usuario')) {
+        commit('setUser', JSON.parse(localStorage.getItem('usuario')))
+    } else {
+        return commit('setUser', null)
+    }
+    // try {
+    //   const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${state.user.localId}.json?auth=${state.user.idToken}`)
+    //   const dataDB = await res.json()
+    //   const arrayTareas = []
+    //   for (let id in dataDB){
+    //     arrayTareas.push(dataDB[id])
+    //   }
+    //   commit('cargar', arrayTareas)
+
+    // } catch (error) {
+    //   console.log(error)
+    // }
+    },
     async cargaAPI({ commit }){
         if (localStorage.getItem('usuario')) {
             commit('setUser', JSON.parse(localStorage.getItem('usuario')))
@@ -153,9 +155,7 @@ export const actions = {
             for (let id in dataDB){
                 arrayProjects.push(dataDB[id])
             }
-            console.log(arrayProjects)
-            commit('load', arrayProjects)
-            
+            commit('load', arrayProjects)     
         } catch (error) {
             console.log(error)
         }
@@ -213,7 +213,6 @@ export const actions = {
             for (let id in dataDB){
                 arrayProjects.push(dataDB[id])
             }
-            console.log(arrayProjects)
             commit('loadUpdate', arrayProjects)
             
         } catch (error) {

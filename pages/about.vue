@@ -32,6 +32,9 @@
     </v-container>
 </template>
 <script>
+
+import { db } from "@/plugins/firebase.js"
+
 export default {
     data(){
         return{
@@ -48,6 +51,19 @@ export default {
                 },
             ]
         }
-    }
+    },
+    // fetch({ store }){
+    //     return db.collection('projects').get()
+    //         .then(query => {
+    //             const projects = []
+    //             query.forEach(data => {
+    //                 projects.push(data.data())
+    //             });
+    //             return store.commit('set', projects)
+    //         })
+    //         .catch(function(error){
+    //              console.log('console error', error);
+    //         })
+    // }
 }
 </script>
