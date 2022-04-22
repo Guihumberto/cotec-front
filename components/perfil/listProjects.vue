@@ -23,8 +23,12 @@
 
                         <v-list-item-action>
                             <div d-flex>
-
                                 <perfil-details :project="item" />
+                                <v-btn title="atualizar andamento do projeto" icon small :to="{
+                                    name: 'project',
+                                    params:{project: item.name},
+                                    query:{id: item.id}  
+                                }"> <v-icon>mdi-update</v-icon> </v-btn>
                                 <perfil-infoAdd :project="item" />
                                 <perfil-editProject :project="item" />
                                 <forms-confirmation :id="item" @action="deleteProject($event)" />
@@ -54,6 +58,7 @@ import perfil from '../../pages/perfil.vue';
             data(){
                 return{
                     selected:[2],
+                    dialogUpdate: false,
                     search:{
                         search: '',
                         profisco: false
