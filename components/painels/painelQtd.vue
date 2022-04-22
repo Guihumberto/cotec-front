@@ -38,7 +38,12 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="3">
-              <v-card dark  color="success lighten-1" class="text-center" hover>
+              <v-card dark  color="success lighten-1" class="text-center" hover 
+                        :to="{
+                        name: 'projects',
+                        params:{project: '/projects'},
+                        query:{status: 3}  
+                      }">
                 <v-card-text><span class="headline white--text">{{concluded}}</span> <br> Concluído</v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
@@ -68,7 +73,11 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="3">
-              <v-card dark  color="warning lighten-1" class="text-center" hover>
+              <v-card dark  color="warning lighten-1" class="text-center" hover :to="{
+                        name: 'projects',
+                        params:{project: '/projects'},
+                        query:{status: 2}  
+                      }">
                 <v-card-text><span class="headline white--text">{{current}}</span> <br> Em andamento</v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
@@ -98,7 +107,11 @@
               </v-card>
             </v-col>
             <v-col cols="12" sm="3">
-              <v-card dark  color="error lighten-1" class="text-center" hover>
+              <v-card dark  color="error lighten-1" class="text-center" hover :to="{
+                        name: 'projects',
+                        params:{project: '/projects'},
+                        query:{status: 1}  
+                      }">
                 <v-card-text><span class="headline white--text">{{notStart}}</span> <br>Não iniciados</v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">

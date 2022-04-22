@@ -56,7 +56,14 @@ export default {
             } else {
                 return this.projects
             }
-        }
+        },
+    },
+    created(){
+        if(this.$route.query.status){
+               this.dataSearch = {
+                   status: this.$route.query.status}
+               this.filtro
+            }
     }
 }
 </script>
