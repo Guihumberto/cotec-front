@@ -18,7 +18,7 @@
           </p>
           <p>
             Se você gostaria de contribuir ou sugerir alguma melhoria <nuxt-link
-            to="/about"
+            to="/cotec"
             rel="noopener noreferrer"
           >
               contato
@@ -26,7 +26,7 @@
           </p>
           <p>
             Encontrou algum erro? Reporte ao COTEC <nuxt-link
-            to="/about"
+            to="/cotec"
             rel="noopener noreferrer"
           >
               contato
@@ -52,7 +52,7 @@
           </nuxt-link>
           <br>
           <nuxt-link
-            to="/about"
+            to="/cotec"
             rel="noopener noreferrer"
           >
             Sobre o COTEC
@@ -62,7 +62,7 @@
             to="/about"
             rel="noopener noreferrer"
           >
-            Sobre o Projeto
+            Sobre o Sistema de Acompanhamento de Projetos
           </nuxt-link>
         </v-card-text>
         <v-card-actions>

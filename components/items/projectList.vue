@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-card class="mt-2" hover v-for="project in projects" :key="project.id">
-        <v-card-title>{{project.name}}</v-card-title>
+        <v-card-title> <span class="boxList"></span> {{project.name}}</v-card-title>
         <v-card-subtitle>
             <div d-flex>
                 <span> Lider: {{project.lider}}</span> 

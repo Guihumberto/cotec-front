@@ -238,6 +238,10 @@
 </script>
 
 <style>
+    .boxList{
+        border: 8px solid rgb(26, 125, 57);
+        margin-right: 3px;
+    }
     .box{
         border-right: 8px solid rgb(26, 125, 57);
         border-top: 1px solid rgb(26, 125, 57);
