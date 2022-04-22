@@ -12,7 +12,7 @@
         large
       >
         <template v-slot:icon>
-          <span v-if="userLogin">JH</span>
+          <span v-if="userLogin">{{userInfo.email.substr(0,1).toUpperCase()}}</span>
         </template>
         <v-card flat outlined max-width="600">
           <v-card-text v-if="userLogin">
@@ -76,10 +76,10 @@
             <v-col
               class="text-right"
               cols="5"
-            >
-            {{event.time.data}} <br> {{event.time.hora}}
+            > <small>Data/Hora</small> <br> <small>
+            {{event.time.data}}  {{event.time.hora}}</small>
             </v-col>
-            <v-col  cols="1" class="text-right">
+            <v-col  cols="1" class="text-right" v-if="userLogin && hoje == event.time.data">
               <forms-confirmation :id="event" @action="deleteUpdate($event)" />
             </v-col>
           </v-row>
@@ -122,6 +122,16 @@
       },
       userLogin(){
         return this.$store.getters.readUser
+      },
+      userLogin(){
+        return this.$store.getters.readUser
+      },
+      userInfo(){
+        return this.$store.getters.readUserInfo
+      },
+      hoje(){
+        const hoje = new Date().toLocaleDateString('pt-BR')
+        return hoje
       }
     },
 

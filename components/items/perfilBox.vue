@@ -1,22 +1,17 @@
 <template>
     <v-card>
         <v-list>
-          <v-list-item>
+          <v-list-item to="/perfil">
             <v-list-item-avatar color="indigo">
-              <span class="white--text">JH</span>
+              <span class="white--text">{{user.email.substr(0,1).toUpperCase()}}</span>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title>João Humberto</v-list-item-title>
-              <v-list-item-subtitle>Auditor Fiscal</v-list-item-subtitle>
+              <v-list-item-title>{{user.displayName}}</v-list-item-title>
+              <v-list-item-subtitle>{{user.email}}</v-list-item-subtitle>
             </v-list-item-content>
-
             <v-list-item-action>
-              <v-btn
-                to="/perfil" icon
-              >
-                <v-icon>mdi-tools</v-icon>
-              </v-btn>
+                <v-icon>mdi-menu-down</v-icon>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -39,6 +34,9 @@
         data(){
             return{
             }
+        },
+        props:{
+          user: Object
         }
     }
 </script>

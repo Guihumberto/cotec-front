@@ -4,6 +4,7 @@ export const strict = false
 
 export const state = () => ({
     user: null, 
+    userInfo: null,
     users:[
         {id: 1, name:'Joao Silva', mail:'joao@sefaz', senha:'1234'},
         {id: 2, name:'Maria Ribeiro', mail:'maria@sefaz', senha:'1234'},
@@ -27,6 +28,9 @@ export const getters = {
     readUser(state){
         return !!state.user
     },
+    readUserInfo(state){
+        return state.userInfo
+    },
     readProjects(state){
         return state.projects
     },
@@ -41,6 +45,7 @@ export const getters = {
 export const mutations = {
     setUser(state, payload){
         state.user = payload
+        state.userInfo = payload
     },
     load(state, payload){
         state.projects = payload
@@ -104,10 +109,11 @@ export const actions = {
         const res = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyB236S5G4dvW4QVB9I7znEHIg21LlkAG3Q', {
         method: 'POST',
         body: JSON.stringify({
+            displayName: user.displayName,
             email: user.email,
             password: user.password,
             returnSecureToken: true
-        })
+            })
         })
         const userDB = await res.json()
         console.log(userDB)

@@ -49,12 +49,11 @@
 
         <v-list-item two-line to="/perfil" v-if="user">
           <v-list-item-avatar color="indigo" class="align_avatar">
-              <span class="white--text">JH</span>
+              <span class="white--text">{{userInfo.email.substr(0,1).toUpperCase()}}</span>
           </v-list-item-avatar>
-
           <v-list-item-content>
-            <v-list-item-title>João Humberto</v-list-item-title>
-            <v-list-item-subtitle>Auditor Fiscal</v-list-item-subtitle>
+            <v-list-item-title>{{userInfo.displayName}}</v-list-item-title>
+            <v-list-item-subtitle>{{userInfo.email}}</v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
             <v-icon>mdi-menu-down</v-icon>
@@ -132,7 +131,7 @@
               <v-icon>mdi-account</v-icon>
             </v-btn>
           </template>
-          <items-perfilBox @logoff="closeLogin()" @closeBox="menuPerfil = false"/>
+          <items-perfilBox @logoff="closeLogin()" @closeBox="menuPerfil = false" :user="userInfo" />
         </v-menu>
       </div>
 
@@ -215,7 +214,10 @@
       ...mapGetters({snacks:"snackbars/readSnackbars"}),
       user(){
         return this.$store.getters.readUser
-      }
+      },
+      userInfo(){
+        return this.$store.getters.readUserInfo
+      },
     },
     methods:{
       ...mapActions(['cargaAPI', 'cargaUpdate', 'closeSession']),

@@ -35,20 +35,20 @@
                 <v-card-text class="mt-2">
                     <v-form @submit.prevent="onSubmit" ref="form">
                         <v-text-field
+                            v-if="!isLogin"
+                            label="Nome"
+                            prepend-icon="mdi-account"
+                            type="text"
+                            v-model.trim="userInfo.displayName"
+                            :rules="[rules.required, rules.minname]"
+                        >
+                        </v-text-field>
+                        <v-text-field
                             label="e-mail"
                             prepend-icon="mdi-email"
                             type="text"
                             v-model.trim="userInfo.email"
                             :rules="[rules.required, rules.email]"
-                        >
-                        </v-text-field>
-                        <v-text-field
-                            v-if="false"
-                            label="Login"
-                            prepend-icon="mdi-account"
-                            type="text"
-                            v-model.trim="userInfo.identifier"
-                            :rules="[rules.required, rules.minname]"
                         >
                         </v-text-field>
                         <v-text-field
@@ -100,7 +100,7 @@ export default {
             msgSnackBar: "",
             userInfo: {
                 email:'',
-                identifier:'',
+                displayName:'',
                 password:'',
             },
             rules: {
@@ -139,7 +139,7 @@ export default {
                     this.$store.dispatch("snackbars/setSnackbars", {text:'Bem-vindo ao sistema de projetos!', color:'success'})
                 } else {
                     this.userInfo.email = this.userInfo.email.toLowerCase()
-                    this.userInfo.identifier = this.userInfo.identifier.charAt(0).toUpperCase() + this.userInfo.identifier.slice(1)
+                    this.userInfo.displayName = this.userInfo.displayName.charAt(0).toUpperCase() + this.userInfo.displayName.slice(1)
                     this.register(this.userInfo)
                     this.clearFields()
                     this.dialog = false
@@ -178,7 +178,7 @@ export default {
         },
         clearFields(){
             this.userInfo.email = ''
-            this.userInfo.identifier = ''
+            this.userInfo.displayName = ''
             this.userInfo.password = ''
         }
     }
