@@ -13,15 +13,25 @@
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
                   <v-row>
-                    <v-col cols="6">
-                      <small>Sistemas: {{totalSistemas}}</small><br>
-                      <small>Infra: {{totalInfra}}</small><br>
-                      <small>Outros: {{totalOutros}}</small>
+                    <v-col cols="4">
+                      <small>Sistemas: </small><br>
+                      <small>Infra:</small><br>
+                      <small>Outros:</small>
                     </v-col>
-                    <v-col cols="6">
-                      <small>Profisco: {{totalProfisco}}</small><br>
-                      <small>Prioridade 3+: {{totalPriorityMais}}</small><br>
-                      <small>Prioridade 3: {{totalPriority}}</small>
+                    <v-col cols="2">
+                      <small>{{totalSistemas}}</small><br>
+                      <small>{{totalInfra}}</small><br>
+                      <small>{{totalOutros}}</small>
+                    </v-col>
+                    <v-col cols="4">
+                      <small>Profisco: </small><br>
+                      <small>Priori 3+:</small><br>
+                      <small>Priori 3:</small>
+                    </v-col>
+                    <v-col cols="2">
+                      <small>{{totalProfisco}}</small><br>
+                      <small>{{totalPriorityMais}}</small><br>
+                      <small>{{totalPriority}}</small>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -33,15 +43,25 @@
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
                   <v-row>
-                    <v-col cols="6">
-                      <small>Sistemas {{concludedSistemas}}</small><br>
-                      <small>Infra {{concludedInfra}}</small><br>
-                      <small>Outros {{concludedOutros}}</small>
+                    <v-col cols="4">
+                      <small>Sistemas:</small><br>
+                      <small>Infra:</small><br>
+                      <small>Outros:</small>
                     </v-col>
-                    <v-col cols="6">
-                      <small>Profisco: {{concludedProfisco}}</small><br>
-                      <small>Prioridade 3+: {{concludedPriorityMais}}</small><br>
-                      <small>Prioridade 3: {{concludedPriority}}</small>
+                    <v-col cols="2">
+                      <small>{{concludedSistemas}}</small><br>
+                      <small>{{concludedInfra}}</small><br>
+                      <small>{{concludedOutros}}</small>
+                    </v-col>
+                    <v-col cols="4">
+                      <small>Profisco:</small><br>
+                      <small>Priori 3+:</small><br>
+                      <small>Priori 3:</small>
+                    </v-col>
+                    <v-col cols="2">
+                      <small>{{concludedProfisco}}</small><br>
+                      <small>{{concludedPriorityMais}}</small><br>
+                      <small>{{concludedPriority}}</small>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -53,15 +73,25 @@
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
                   <v-row>
-                    <v-col cols="6">
-                      <small>Sistemas {{currentSistemas}}</small><br>
-                      <small>Infra {{currentInfra}}</small><br>
-                      <small>Outros {{currentOutros}}</small>
+                    <v-col cols="4">
+                      <small>Sistemas: </small><br>
+                      <small>Infra:</small><br>
+                      <small>Outros:</small>
                     </v-col>
-                    <v-col cols="6">
-                      <small>Profisco: {{currentProfisco}}</small><br>
-                      <small>Prioridade 3+: {{currentPriorityMais}}</small><br>
-                      <small>Prioridade 3: {{currentPriority}}</small>
+                    <v-col cols="2">
+                      <small>{{currentSistemas}}</small><br>
+                      <small>{{currentInfra}}</small><br>
+                      <small>{{currentOutros}}</small>
+                    </v-col>
+                    <v-col cols="4">
+                      <small>Profisco: </small><br>
+                      <small>Priori 3+: </small><br>
+                      <small>Priori 3: </small>
+                    </v-col>
+                    <v-col cols="2">
+                      <small>{{currentProfisco}}</small><br>
+                      <small>{{currentPriorityMais}}</small><br>
+                      <small>{{currentPriority}}</small>
                     </v-col>
                   </v-row>
                 </v-card-text>
@@ -73,15 +103,25 @@
                 <v-divider class="mx-4"></v-divider>
                 <v-card-text v-show="showDetails" class="text-left">
                   <v-row>
-                    <v-col cols="6">
-                      <small>Sistemas {{notStartSistemas}}</small><br>
-                      <small>Infra {{notStartInfra}}</small><br>
-                      <small>Outros {{notStartOutros}}</small>
+                    <v-col cols="4">
+                      <small>Sistemas:</small><br>
+                      <small>Infra:</small><br>
+                      <small>Outros:</small>
                     </v-col>
-                    <v-col cols="6">
-                      <small>Profisco {{notStartProfisco}}</small><br>
-                      <small>Prioridade 3+: {{notStartPriorityMais}}</small><br>
-                      <small>Prioridade 3: {{notStartPriority}}</small>
+                    <v-col cols="2">
+                      <small>{{notStartSistemas}}</small><br>
+                      <small>{{notStartInfra}}</small><br>
+                      <small>{{notStartOutros}}</small>
+                    </v-col>
+                    <v-col cols="4">
+                      <small>Profisco:</small><br>
+                      <small>Priori 3+: </small><br>
+                      <small>Priori 3:</small>
+                    </v-col>
+                    <v-col cols="2">
+                      <small>{{notStartProfisco}}</small><br>
+                      <small>{{notStartPriorityMais}}</small><br>
+                      <small>{{notStartPriority}}</small>
                     </v-col>
                   </v-row>
                 </v-card-text>

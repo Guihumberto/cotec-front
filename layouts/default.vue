@@ -126,7 +126,9 @@
             <v-btn
               v-bind="attrs"
               v-on="on"
-              icon
+              fab small
+              color="indigo"
+              title="perfil"
             >
               <v-icon>mdi-account</v-icon>
             </v-btn>
@@ -147,6 +149,7 @@
           v-bind="attrs"
           v-on="on"
           icon
+          title="Menu"
         >
           <v-icon>mdi-dots-vertical</v-icon>
         </v-btn>
