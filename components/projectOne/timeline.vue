@@ -22,7 +22,6 @@
               flat
               label="Título da atualização"
               dense
-              solo
               outlined
               @keydown.enter="comment"
             >
@@ -32,8 +31,8 @@
               hide-details
               flat
               label="Insira o texto da atualização do projeto..."
-              solo
               outlined dense
+              required
               class="my-2"
               @keydown.enter="comment"
             >

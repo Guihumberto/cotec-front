@@ -1,4 +1,4 @@
-import { db } from "@/plugins/firebase.js"
+import { auth } from "@/plugins/firebase.js"
 
 export const strict = false
 
@@ -6,9 +6,6 @@ export const state = () => ({
     user: null, 
     userInfo: null,
     users:[
-        {id: 1, name:'Joao Silva', mail:'joao@sefaz', senha:'1234'},
-        {id: 2, name:'Maria Ribeiro', mail:'maria@sefaz', senha:'1234'},
-        {id: 3, name:'Jose Alencar', mail:'jose@sefaz', senha:'1234'}
     ],
     projecto:{
         id:'', 
@@ -254,4 +251,18 @@ export const actions = {
             console.log(error)
         }
     },
+    setUserTest({ commit }, user){
+        const usuario = {
+            name: user.displayName,
+            email: user.email,
+            uid: user.uid,
+            photo: user.photoURL
+        }
+        commit('setUser', usuario)
+    },
+    logoutTest({ commit }){
+        auth.signOut()
+        commit('setUser', null)
+        this.$router.push( '/login' )
+    }
 }

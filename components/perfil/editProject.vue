@@ -1,11 +1,12 @@
 <template>
     <v-dialog v-model="dialog" max-width="800">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn small color="secondary" icon v-bind="attrs" v-on="on"> <v-icon>mdi-clipboard-edit</v-icon> </v-btn>
+            <v-btn small color="secondary" icon v-bind="attrs" v-on="on"> <v-icon>mdi-file-document-edit</v-icon> </v-btn>
         </template>
         <v-card>
             <v-form @submit.prevent="edit">
-                <v-card-title class="text-h5 grey lighten-2">Editar dados do Projeto<v-spacer></v-spacer> <v-btn @click="dialog = false" icon> <v-icon>mdi-close</v-icon> </v-btn></v-card-title>
+                <v-card-title class="text-h5 grey lighten-2">Editar dados do Projeto<v-spacer></v-spacer> 
+                <v-btn @click="dialog = false" icon> <v-icon>mdi-close</v-icon> </v-btn></v-card-title>
                 <v-card-title> <span class="mark"></span> {{project.name}}</v-card-title>
                 <v-card-text>
                     <v-textarea
