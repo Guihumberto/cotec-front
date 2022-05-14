@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card class="mt-2" hover v-for="project in projects" :key="project.id">
+    <v-card class="mt-2" hover v-for="project in projects" :key="project.id" rounded="0">
         <v-card-title> <span class="boxList"></span> {{project.name}}</v-card-title>
         <v-card-subtitle>
             <div d-flex>
@@ -16,14 +16,20 @@
             <painels-barProjectList :tags="project" />
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-actions>
+        <v-card-actions style="background-color: #D0F2EC">
             <v-spacer></v-spacer>
-            <v-btn small v-show="false" icon @click="alert" :color="notification ? 'warning':'secondary lighten-3'" > <v-icon small>mdi-bell</v-icon> </v-btn> 
-            <v-btn small color="success" :to="{
+            <v-btn 
+                small v-show="false" icon @click="alert" 
+                :color="notification ? 'warning':'secondary lighten-3'" > <v-icon small>mdi-bell</v-icon> 
+            </v-btn> 
+            <v-btn outlined small 
+                        color="success" 
+                        :to="{
                         name: 'project',
                         params:{project: project.name},
                         query:{id: project.id}  
-                      }" >Detalhes +</v-btn>              
+                    }" >Detalhes +
+            </v-btn>             
         </v-card-actions>
     </v-card>
 </div>

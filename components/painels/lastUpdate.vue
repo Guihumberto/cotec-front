@@ -10,22 +10,23 @@
       </div>
       <v-expand-transition>
       <v-list three-line v-show="minus">
-        <v-subheader>Mais Recentes</v-subheader>
+        <v-subheader v-if="updates[0]">Mais Recentes</v-subheader>
+        <v-subheader v-else>Não há atualizações de projetos registradas no sistema</v-subheader>
         <template v-for="item in updates">
 
           <v-list-item :key="item.id">
             <v-list-item-avatar color="indigo" class="align_avatar">
-              <span class="white--text">{{nameproject(item.idProject).substr(0,1)}}</span>
+              <span class="white--text" v-if="item.nameProject != 'Vazio'">{{item.nameProject.substr(0,1)}}</span>
             </v-list-item-avatar>
 
             <v-list-item-content>
-              <v-list-item-title> {{nameproject(item.idProject)}} </v-list-item-title>
+              <v-list-item-title> {{item.nameProject}} </v-list-item-title>
               <v-list-item-subtitle> <span style="text-transform:uppercase" >{{item.title}}</span> - {{item.text}}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action class="text-center">
               <small> <v-icon x-small>mdi-clock</v-icon> data/hora</small>
               <small> 
-                {{item.time.data}} <br> {{item.time.hora}}
+                {{dateMoment(item.time)}}
               </small>
             </v-list-item-action>
           </v-list-item>
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+  import moment from 'moment'
   export default {
     data(){
       return{
@@ -50,7 +52,32 @@
     },
     computed:{
       updates(){
-        return this.$store.getters.readUpdates.slice().reverse()
+        let updateNew = []
+        let updatesProject =  this.$store.getters.readUpdates
+        
+        updatesProject.forEach(update => {    
+          //filtrando o projeto
+          let project = this.projects.filter(project => project.id == update.idProject)
+
+          //inserindo o nome do projeto
+          if (typeof(project[0]) != 'undefined') {
+            if(project[0].id == update.idProject){
+              update.nameProject = project[0].name
+            }
+          } else {
+              update.nameProject = ""
+          }
+          updateNew.push(update)
+        })
+        return updateNew
+      },
+      mergeUpdatesProjects(){
+        let nameProject = ''
+        const newUpdates = this.updates.forEach(element => {
+         element.maria
+         console.log(element)
+        });
+        return newUpdates
       },
       minusMax(){
         return this.minus 
@@ -59,12 +86,14 @@
       },
     },
     methods:{
-      nameproject(x){
-        let name = 'Nome'
-        name = this.projects.filter(el => el.id == x)
-        return name[0].name
+      dateMoment(date){
+        moment.locale('pt-br')
+        const dateM = moment(date).format('lll')
+        return dateM
+      },
+    },
+    created(){
       
-      }
     }
   }
 </script>
