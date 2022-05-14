@@ -23,6 +23,7 @@
 
                         <v-list-item-action>
                             <div d-flex>
+                                <perfil-destinyProject />
                                 <perfil-details :project="item" />
                                 <v-btn title="atualizar andamento do projeto" icon small :to="{
                                     name: 'project',

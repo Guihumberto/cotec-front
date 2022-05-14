@@ -1,7 +1,7 @@
 <template>
     <v-dialog v-model="dialog" max-width="800">
         <template v-slot:activator="{ on, attrs }">
-            <v-btn small color="secondary" icon v-bind="attrs" v-on="on"> <v-icon>mdi-file-document-edit</v-icon> </v-btn>
+            <v-btn title="editar projeto" small color="secondary" icon v-bind="attrs" v-on="on"> <v-icon>mdi-file-document-edit</v-icon> </v-btn>
         </template>
         <v-card>
             <v-form @submit.prevent="edit">

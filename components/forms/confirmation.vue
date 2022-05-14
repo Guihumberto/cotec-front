@@ -12,6 +12,7 @@
           v-on="on"
           icon
           small
+          title="Apagar Projeto"
         >
           <v-icon>mdi-delete-circle</v-icon>
         </v-btn>

@@ -11,7 +11,11 @@
                 </v-tab>
                 <v-tab>
                     <v-icon left>mdi-newspaper-variant-multiple-outline</v-icon>
-                    Projetos
+                    Todos os Projetos
+                </v-tab>
+                <v-tab>
+                    <v-icon left>mdi-newspaper</v-icon>
+                    Meus Projetos
                 </v-tab>
                 <v-tab>
                     <v-icon left>mdi-star-box-multiple</v-icon>
