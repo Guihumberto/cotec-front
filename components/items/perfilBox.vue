@@ -2,7 +2,9 @@
     <v-card>
         <v-list>
           <v-list-item to="/perfil">
-            <v-list-item-avatar color="indigo">
+
+            <!--Primeira letra do nome -->
+            <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text">{{user.email.substr(0,1).toUpperCase()}}</span>
             </v-list-item-avatar>
 
@@ -40,3 +42,9 @@
         }
     }
 </script>
+
+<style scoped>
+  .align_avatar{
+      padding: 16px;
+    }
+</style>
