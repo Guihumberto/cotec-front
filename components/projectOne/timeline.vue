@@ -15,12 +15,12 @@
             v-model="project.status"
           >
           </v-select>
-          <v-radio-group row v-model="project.execution" class="mt-0">
+          <v-radio-group v-model="project.execution" class="mt-0">
               <v-radio
               v-for="n in execution"
               :key="n"
-              :label="`${n}%`"
-              :value="n"
+              :label="n.name"
+              :value="n.value"
               ></v-radio>
           </v-radio-group>
         </v-card-text>
@@ -32,7 +32,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <h2 class="headline ligheten-1">Atualização do Projeto - {{project.name}}</h2>
+    <v-card color="transparent" flat>
+    <v-card-title
+      class="blue-grey white--text"
+    >
+      <span class="text-h6">Atualização do Projeto - {{project.name}}</span>
+    </v-card-title>
+    <v-card-text>
     <v-timeline
       dense
       clipped
@@ -114,31 +120,38 @@
           color="pink"
           small
         >
-          <v-row justify="space-between">
-            <v-col
-              cols="6"
-            > <span style="text-transform: uppercase" >{{event.title}}</span> - {{event.text}} </v-col>
-            <v-col
-              class="text-right"
-              cols="4"
-            > <small>Data/Hora</small> <br> <small>
-            {{dateMoment(event.time)}}</small>
-            </v-col>
-            <v-col  cols="2" class="text-right" v-if="userLogin">
-              <forms-confirmation :id="event" @action="deleteUpdate($event)" />
-            </v-col>
-          </v-row>
+          <v-card>
+            <v-card-text>
+              <v-row justify="space-between">
+                <v-col
+                  cols="6"
+                > <span style="text-transform: uppercase" >{{event.title}}</span> - {{event.text}} </v-col>
+                <v-col
+                  class="text-right"
+                  cols="4"
+                > <small>Data/Hora</small> <br> <small>
+                {{dateMoment(event.time)}}</small>
+                </v-col>
+                <v-col v-show="false" cols="2" class="text-right" v-if="userLogin">
+                  <forms-confirmation :id="event" @action="deleteUpdate($event)" />
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
         </v-timeline-item>
       </v-slide-x-transition>
 
       <v-timeline-item
         class="mb-6"
         hide-dot
+        v-show="false"
       >
         <span> {{timeline[0] ? 'Últimas Atualizações' : 'Não há atualizações inseridas neste projeto'}}</span>
       </v-timeline-item>
       
     </v-timeline>
+    </v-card-text>
+    </v-card>
   </v-container>
 </template>
 
@@ -156,7 +169,15 @@
         {value: 3, name: 'Concluído'},
         {value: 4, name: 'Paralisado'},
       ],
-      execution: [20, 40, 60, 80, 100],
+      execution: [
+                    {value: 0, name: '0% - NÃO INICIADA'},
+                    {value: 1, name: '1% a 10% - ESTUDOS INICIAIS'},
+                    {value: 2, name: '11% a 30% - TERMO DE REFERÊNCIA/CONTRATAÇÃO'},
+                    {value: 3, name: '31% a 50% - EXECUÇÃO INICIAL'},
+                    {value: 4, name: '51% a 75% - EXECUÇÃO AVANÇADA'},
+                    {value: 5, name: '76% a 99% - ELABORAÇÃO CONCLUÍDA'},
+                    {value: 6, name: '100% - IMPLANTADA E EM PRODUÇÃO'},
+      ],
       events: [],
       title: null,
       text: null,
@@ -217,9 +238,9 @@
         
       },
       dateMoment(date){
-      moment.locale('pt-br')
-      const dateM = moment(date).format('lll')
-      return dateM
+        moment.locale('pt-br')
+        const dateM = moment(date).format('lll')
+        return dateM
       },
     },
   }

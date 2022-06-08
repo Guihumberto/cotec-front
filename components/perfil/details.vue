@@ -7,15 +7,15 @@
             <v-card-title class="text-h5 grey lighten-2"> Detalhes do Projeto <v-spacer></v-spacer> <v-btn @click="dialog = false" icon> <v-icon>mdi-close</v-icon> </v-btn> </v-card-title>
             <v-card-title><span class="mark"></span>{{project.name}}</v-card-title>
             <v-card-subtitle class="text-h6 mt-2">Dados do Projeto</v-card-subtitle>
-            <v-card-text> {{project}} </v-card-text>
-            <v-card-subtitle class="text-h6 mt-2">Informações Adicionais</v-card-subtitle>
-            <v-card-text> <v-btn>inserir</v-btn> </v-card-text>
+       
+            <projectOne-details-one :project="project" />
+
             <v-card-subtitle class="text-h6 mt-2">Atualizações</v-card-subtitle>
-            <v-card-text> Update </v-card-text>
+            <projectOne-update-one :idProject="project.id" />
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn small text @click="dialog = !dialog">fechar</v-btn>
+                <v-btn small outlined @click="dialog = !dialog">fechar</v-btn>
             </v-card-actions>
         </v-card>
 

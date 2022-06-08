@@ -32,10 +32,10 @@
                                 }"> <v-icon>mdi-update</v-icon> </v-btn>
                                 <perfil-infoAdd :project="item" />
                                 <perfil-editProject :project="item" />
-                                <forms-confirmation :id="item" @action="deleteProject($event)" />
-                                
+                                <forms-confirmation :id="item" @action="deleteProject($event)" />            
                             </div>
                         </v-list-item-action>
+                        
                         </template>
                     </v-list-item>
 
