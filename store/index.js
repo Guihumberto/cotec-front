@@ -67,6 +67,10 @@ export const mutations = {
     updateProject(state, payload){
         state.updatesProject.push(payload)
     },
+    updateProjectEdit(state, payload){
+        const x = state.updatesProject.map(item => item.id == payload.id ? payload : item)
+        state.projects = x
+    },
     delUpdate(state, payload) {
         state.updatesProject = state.updatesProject.filter( item => item.id != payload)
     },
@@ -237,6 +241,19 @@ export const actions = {
            const dataDB = await res.json()
            console.log(dataDB);
            commit('updateProject', event)
+        } catch (error) {
+            console.log(error);     
+        }
+    },
+    async addUpdateEdit ({ commit }, event) {
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/updates/${event.id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify(event)
+            })
+
+           const dataDB = await res.json()
+           commit('updateProjectEdit', event)
         } catch (error) {
             console.log(error);     
         }

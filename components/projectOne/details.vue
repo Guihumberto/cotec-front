@@ -7,7 +7,7 @@
         </v-card-text>
         <v-card-text>
                 <v-row class="mx-4 border">
-                    <v-col cols="12" class="overline my-0 py-0">Processo nº: XXXX/2020</v-col>
+                    <v-col cols="12" class="overline my-0 py-0">Processo nº: - </v-col>
                     <v-col cols="12" sm="4">
                         <span class="overline" >Líder: </span><span v-text="selectProject.lider ? selectProject.lider: '-'"></span> <br>
                         <span class="overline" >Colíder: </span><span v-text="selectProject.colider ? selectProject.colider: '-'"></span> <br>

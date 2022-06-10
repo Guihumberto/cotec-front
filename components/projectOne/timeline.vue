@@ -35,44 +35,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="taskDialog" max-width="800">
-      <v-card>
-        <v-form>
-        <v-card-title class="text--white text-h5 deep-orange lighten-2 mb-6">Tarefas
-          <v-spacer></v-spacer>
-          <v-btn dark icon @click="taskDialog = false"><v-icon>mdi-close</v-icon></v-btn>
-        </v-card-title>
-        <v-card-text class="mb-n6">
-          <v-text-field
-            label="Responsável"
-            outlined
-            v-model="taskDirection.response"
-            :rules="[rules.required, rules.min]"
-            dense
-          ></v-text-field>
-          <v-text-field
-            label="Data Limite"
-            outlined
-            v-model="taskDirection.dateLimit"
-            :rules="[rules.required, rules.min]"
-            dense
-          ></v-text-field>
-          <v-textarea
-            label="Orientações"
-            outlined
-            v-model="taskDirection.text"
-            dense
-          ></v-textarea>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions class="py-4">
-          <v-spacer></v-spacer>
-          <v-btn @click="taskDialog = false" small outlined color="orange">Cancelar</v-btn>
-          <v-btn type="submit" dark small color="deep-orange lighten-1">Enviar</v-btn>
-        </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-dialog>
+    
     <v-card color="transparent" flat>
     <v-card-title
       class="blue-grey white--text"
@@ -147,13 +110,18 @@
             </v-form>
           </v-card-text>
           <v-alert
-              v-else
+            v-else
             border="top"
             colored-border
             type="info" 
           >Faça login para inserir dados de atualização do Projeto.
           </v-alert>
         </v-card>
+        <v-checkbox
+          v-model="justTask"
+          label="Somente Tarefas"
+          class="mt-1 mb-n6"
+        ></v-checkbox>   
       </v-timeline-item>
 
       <v-slide-x-transition
@@ -186,21 +154,12 @@
               </v-row>
             </v-card-text>
             <v-card-actions v-if="event.task">
-            <div v-show="false">
-              <span>Responsável:</span>
-              <span class="ml-2">Data Limite:</span>
+            <div v-show="true">
+              <span>Responsável: {{event.idResponse}}</span>
+              <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
             </div>
               <v-spacer></v-spacer>
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn 
-                    @click="taskDialog = true"
-                    v-bind="attrs"
-                    v-on="on"
-                    outlined icon dark elevation="0"> <v-icon>mdi-exclamation-thick</v-icon></v-btn>
-                </template>
-                  <span>Atualização de status e execução</span>
-                </v-tooltip>
+              <projectOne-addTask :projectTask="event" />
             </v-card-actions>
           </v-card>
         </v-timeline-item>
@@ -228,7 +187,7 @@
   export default {
     data: () => ({
       dialog: false,
-      taskDialog: false,
+      justTask: false,
       status: [
         {value: 1, name: 'Não Iniciado'},
         {value: 2, name: 'em andamento'},
@@ -248,11 +207,6 @@
       title: null,
       text: null,
       task: false,
-      taskDirection:{
-        response: null,
-        dateLimit: null,
-        text: null
-      },
       nonce: 0,
       rules: {
           required: (value) => !!value || "Campo obrigatório",
@@ -266,7 +220,11 @@
 
     computed: {
       timeline () {
-        return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
+        if(this.justTask){
+          return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task === true).slice().reverse()
+        } else {
+          return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
+        }
       },
       idProject(){
         return this.$route.query.id
@@ -287,7 +245,7 @@
     },
 
     methods: {
-      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject']),
+      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit']),
       comment () {
         if (this.$refs.form.validate()) {
           const time = new Date()
@@ -309,6 +267,25 @@
           this.task = false
         } 
       },
+      comment2 () {
+          const time = new Date()
+          let event = {
+            id: shortid.generate(),
+            title: this.title,
+            idProject: this.idProject,
+            IdUser: 1,
+            text: this.text,
+            task: this.task,
+            time: Date.now()
+          }
+          this.events.push(event)
+          this.addUpdate(event)
+          this.$store.dispatch("snackbars/setSnackbars", {text:'Atualização inserida com sucesso', color:'primary', timeout:'3000'})
+
+          this.text = null
+          this.title = null
+          this.task = false
+      },
       updateStatus(){
         if(!!this.project.status && !!this.project.execution){
           this.editProject(this.project)
@@ -317,7 +294,7 @@
 
         this.title = "status atualizado"
         this.text = `Atualização de Status: ${this.statusName(this.project.status)} Execução: ${this.executionName(this.project.execution)}`
-        this.comment()
+        this.comment2()
         this.dialog = false
         this.text = ""
         this.title = ""
