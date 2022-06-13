@@ -20,8 +20,8 @@
           </v-select>
           <v-radio-group v-model="project.execution" class="mt-0">
               <v-radio
-              v-for="n in execution"
-              :key="n"
+              v-for="(n, index) in execution"
+              :key="index"
               :label="n.name"
               :value="n.value"
               ></v-radio>
@@ -71,7 +71,7 @@
                   <span>Atualização de status e execução</span>
                 </v-tooltip>
             </v-card-actions>
-            <v-form @submit.prevent="comment" ref="form">
+            <v-form @submit.prevent="comment" ref="form"> <!--inserir atualização do Projeto-->
               <v-text-field
                 v-model="title"
                 hide-details
@@ -140,7 +140,9 @@
                 <v-col
                   cols="8"
                 > 
-                <v-icon small v-if="event.task">mdi-checkbox-marked-circle-plus-outline</v-icon>
+                <v-icon 
+                  title="Tarefa"
+                  color="white" small v-if="event.task">mdi-checkbox-marked-circle-plus-outline</v-icon>
                 <span style="text-transform: uppercase" >{{event.title}}</span> - {{event.text}} </v-col>
                 <v-col
                   class="text-right"
@@ -154,12 +156,12 @@
               </v-row>
             </v-card-text>
             <v-card-actions v-if="event.task">
-            <div v-show="true">
+            <div v-show="event.idResponse">
               <span>Responsável: {{event.idResponse}}</span>
               <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
             </div>
               <v-spacer></v-spacer>
-              <projectOne-addTask :projectTask="event" />
+              <projectOne-addTask :projectTask="event" @addTask="addTaskSave($event)" />
             </v-card-actions>
           </v-card>
         </v-timeline-item>
@@ -245,7 +247,7 @@
     },
 
     methods: {
-      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit']),
+      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit',]),
       comment () {
         if (this.$refs.form.validate()) {
           const time = new Date()
@@ -299,6 +301,19 @@
         this.text = ""
         this.title = ""
         
+      },
+      addTaskSave(event){
+        const x = this.timeline.filter(item => item.id == event.id)
+        const y = x[0]
+        y.dateLimit = event.dateLimit
+        y.dateTask = event.dateTask
+        y.idResponse = event.idResponse
+        y.response = event.response
+        y.textGuide = event.textGuide
+        console.log(event);
+        this.timeline.map(item => item.id == y.id ? y : item)
+        this.addUpdateEdit(event)
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Tarefa direcionada com sucesso', color:'primary', timeout:'3000'})
       },
       dateMoment(date){
         moment.locale('pt-br')

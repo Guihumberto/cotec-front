@@ -69,6 +69,7 @@ export const mutations = {
     },
     updateProjectEdit(state, payload){
         const x = state.updatesProject.map(item => item.id == payload.id ? payload : item)
+        console.log(payload);
         state.projects = x
     },
     delUpdate(state, payload) {

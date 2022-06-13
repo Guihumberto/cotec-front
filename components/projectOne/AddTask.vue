@@ -5,10 +5,11 @@
             @click="taskDialog = true"
             v-bind="attrs"
             v-on="on"
-            outlined icon dark elevation="0"> <v-icon>mdi-exclamation-thick</v-icon></v-btn>
+            title="Inserir direcionamento."
+            icon dark elevation="0"> <v-icon>mdi-circle-edit-outline</v-icon></v-btn>
         </template>
         <v-card>
-            <v-form @submit.prevent="addAdtionalUpdateTask()">
+            <v-form @submit.prevent="addAdtionalUpdateTask()" ref="form">
                 <v-card-title class="text--white text-h5 deep-orange lighten-2 mb-6">Tarefas
                 <v-spacer></v-spacer>
                 <v-btn dark icon @click="taskDialog = false"><v-icon>mdi-close</v-icon></v-btn>
@@ -23,15 +24,14 @@
                     item-text="name"
                     label="Responsável"
                     placeholder="Selecione..."
+                    :rules="[rules.required]"
                     required
                 ></v-autocomplete>
                 <v-dialog
                   ref="refDateDialog"
                   :return-value.sync="taskDirection.dateLimit"
                   v-model="showDateDialog"
-                  lazy
                   persistent
-                  full-width
                   width="290"
                 >
                   <template v-slot:activator="{ on }">
@@ -61,7 +61,7 @@
                 <v-textarea
                     label="Orientações"
                     outlined
-                    v-model="taskDirection.text"
+                    v-model="taskDirection.textGuide"
                     dense
                 ></v-textarea>
                 </v-card-text>
@@ -77,7 +77,6 @@
 </template>
 
 <script>
-    import {mapActions} from 'vuex'
     import moment from 'moment'
     export default {
         data(){
@@ -88,7 +87,7 @@
             taskDirection:{
               response: null,
               dateLimit: moment().format('YYYY-MM-DD'),
-              text: null
+              textGuide: null
             },
             rules: {
                 required: (value) => !!value || "Campo obrigatório",
@@ -106,19 +105,20 @@
           projectTask:Object
         },
         methods:{
-          ...mapActions(['addUpdateEdit']),
           addAdtionalUpdateTask(){
-            this.taskDirection.id = this.projectTask.id
-            this.taskDirection.idResponse = 1
-            this.taskDirection.dateTask = Date.now()
-            this.addUpdateEdit(this.taskDirection)
-            console.log(this.taskDirection)
-            this.taskDialog = false
-            this.$store.dispatch("snackbars/setSnackbars", {text:'Tarefa direcionada com sucesso', color:'primary', timeout:'3000'})
-            this.taskDirection = {
-              response: null,
-              dateLimit: null,
-              text: null
+            if (this.$refs.form.validate()) {
+              this.taskDirection.id = this.projectTask.id
+              this.taskDirection.idResponse = 1
+              this.taskDirection.dateTask = Date.now()
+
+              this.$emit('addTask', this.taskDirection)
+
+              this.taskDialog = false
+              this.taskDirection = {
+                response: null,
+                dateLimit: null,
+                textGuide: null
+              }
             }
           },
           cancelDateDialog(){
