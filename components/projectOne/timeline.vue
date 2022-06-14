@@ -147,7 +147,7 @@
                 <v-col
                   class="text-right"
                   cols="4"
-                > <small>Data/Hora</small> <br> <small>
+                > <small> <v-icon x-small>mdi-clipboard-text-clock-outline</v-icon> Data/Hora</small> <br> <small>
                 {{dateMoment(event.time)}}</small>
                 </v-col>
                 <v-col v-show="false" cols="2" class="text-right" v-if="userLogin">
@@ -155,15 +155,36 @@
                 </v-col>
               </v-row>
             </v-card-text>
+            <!-- inserir tarefas -->
             <v-card-actions v-if="event.task">
-            <div v-show="event.idResponse">
-              <span>Responsável: {{event.idResponse}}</span>
-              <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
-            </div>
+                <div v-show="event.idResponse">
+                  <span>Responsável: {{event.idResponse}}</span>
+                  <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
+                </div>
+                <v-spacer></v-spacer>
+                <projectOne-addTask :projectTask="event" @addTask="addTaskSave($event)" />
+            </v-card-actions>
+            <!-- inserir Cronograma -->
+            <v-card-actions v-if="true">
               <v-spacer></v-spacer>
-              <projectOne-addTask :projectTask="event" @addTask="addTaskSave($event)" />
+              <projectOne-addTimeLine :projectTask="event" @addTimeline="addTimelineSave($event)" />
             </v-card-actions>
           </v-card>
+          <!-- Cronograma -->
+         <v-alert
+            :value="true"
+            color="secondary lighten-2"
+            icon="mdi-information"
+            class="caption white--text"      
+            dense   
+            v-if="event.status"
+         >
+          <v-row>
+            <v-col>Início: <span class="font-italic">{{dateFormat(event.dateStart)}}</span></v-col>
+            <v-col>Fim: <span class="font-italic">{{dateFormat(event.dateLimit)}}</span></v-col>
+            <v-col>Status: <v-chip x-small :color="statusColor(event.status)"> {{statusName(event.status)}}</v-chip></v-col>
+          </v-row>
+         </v-alert>
         </v-timeline-item>
       </v-slide-x-transition>
 
@@ -247,7 +268,7 @@
     },
 
     methods: {
-      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit',]),
+      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit']),
       comment () {
         if (this.$refs.form.validate()) {
           const time = new Date()
@@ -315,9 +336,25 @@
         this.addUpdateEdit(event)
         this.$store.dispatch("snackbars/setSnackbars", {text:'Tarefa direcionada com sucesso', color:'primary', timeout:'3000'})
       },
+      addTimelineSave(event){
+        const x = this.timeline.filter(item => item.id == event.id)
+        const y = x[0]
+        y.dateLimit = event.dateLimit
+        y.dateStart = event.dateStart
+        y.status = event.status
+        console.log(event);
+        this.timeline.map(item => item.id == y.id ? y : item)
+        this.addUpdateEdit(event)
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Tarefa direcionada com sucesso', color:'primary', timeout:'3000'})
+      },
       dateMoment(date){
         moment.locale('pt-br')
         const dateM = moment(date).format('lll')
+        return dateM
+      },
+       dateFormat(date){
+        moment.locale('pt-br')
+        const dateM = moment(date).format('DD/MM/YYYY')
         return dateM
       },
       statusName(value){
@@ -343,6 +380,22 @@
                         break;
                 }
             },
+      statusColor(value){
+        switch (value) {
+          case 1:
+          case 4:
+              return 'error';
+            break;
+          
+           case 3:
+              return 'success';
+            break;
+        
+          default:
+              return 'secondary';
+            break;
+        }
+      },
       executionName(value){
                 switch (value) {
                     case 0:
