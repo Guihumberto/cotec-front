@@ -132,7 +132,7 @@
           :key="event.id"
           class="mb-4"
           :color="event.task ? 'orange': 'pink'"
-          small
+          
         >
           <v-card :color="event.task ? 'deep-orange lighten-3':'white'">
             <v-card-text>
@@ -169,22 +169,39 @@
               <v-spacer></v-spacer>
               <projectOne-addTimeLine :projectTask="event" @addTimeline="addTimelineSave($event)" />
             </v-card-actions>
+             <!-- Cronograma -->
+            <v-alert
+                :value="true"
+                color="secondary lighten-2"
+                class="caption white--text"      
+                dense   
+                v-if="event.status"
+            >
+              <v-row>
+                <v-col cols="12" sm="1"><v-btn @click="event.faseDetail = !event.faseDetail" x-small icon><v-icon color="white" v-text="event.faseDetail ? 'mdi-close':'mdi-information'"></v-icon></v-btn></v-col>
+                <v-col cols="12" sm="3">Início: <span class="font-italic">{{dateFormat(event.dateStart)}}</span></v-col>
+                <v-col cols="12" sm="3">Fim: <span class="font-italic">{{dateFormat(event.dateLimit)}}</span></v-col>
+                <v-col cols="12" sm="4">Status: <v-chip x-small :color="statusColor(event.status)"> {{statusName(event.status)}}</v-chip></v-col>
+                <v-col cols="12" sm="1"> <projectOne-addFase :projectTask="event" @addFase="addFaseSave($event), event.faseDetail = true" /></v-col>
+              </v-row>
+            </v-alert>
+            <!-- Subgrupos FASE -->
+            <v-slide-y-transition>
+              <v-card-text v-show="event.faseDetail">
+                <v-timeline align-top dense>
+                  <v-timeline-item small v-for="(fase, index) in faseList" :key="index">
+                    <v-row>
+                      <v-col cols="12" sm="3" class="mr-n3 px-0"> <strong>{{fase.etapa}}</strong></v-col>
+                      <v-col cols="12" sm="4"><span class="text-caption">{{fase.description}}</span></v-col>
+                      <v-col cols="12" sm="3"><span class="text-caption">{{statusName(fase.status)}}</span></v-col>
+                      <v-col cols="12" sm="1" class="px-0 mr-n3"><v-btn color="primary" @click="updateFase(fase)" small><v-icon>mdi-update</v-icon></v-btn></v-col>
+                    </v-row>
+                  </v-timeline-item>
+                </v-timeline>
+              </v-card-text>
+            </v-slide-y-transition>
           </v-card>
-          <!-- Cronograma -->
-         <v-alert
-            :value="true"
-            color="secondary lighten-2"
-            icon="mdi-information"
-            class="caption white--text"      
-            dense   
-            v-if="event.status"
-         >
-          <v-row>
-            <v-col>Início: <span class="font-italic">{{dateFormat(event.dateStart)}}</span></v-col>
-            <v-col>Fim: <span class="font-italic">{{dateFormat(event.dateLimit)}}</span></v-col>
-            <v-col>Status: <v-chip x-small :color="statusColor(event.status)"> {{statusName(event.status)}}</v-chip></v-col>
-          </v-row>
-         </v-alert>
+         
         </v-timeline-item>
       </v-slide-x-transition>
 
@@ -245,9 +262,13 @@
       timeline () {
         if(this.justTask){
           return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task === true).slice().reverse()
+    
         } else {
-          return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
+         return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
         }
+      },
+      faseList(){
+        return this.$store.getters.readFase.slice().reverse()
       },
       idProject(){
         return this.$route.query.id
@@ -268,7 +289,7 @@
     },
 
     methods: {
-      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit']),
+      ...mapActions(['deleteUpdate', 'addUpdate', 'editProject', 'addUpdateEdit', 'addFase', 'addFaseEdit']),
       comment () {
         if (this.$refs.form.validate()) {
           const time = new Date()
@@ -279,6 +300,7 @@
             IdUser: 1,
             text: this.text,
             task: this.task,
+            faseDetail: false,
             time: Date.now()
           }
           this.events.push(event)
@@ -346,6 +368,35 @@
         this.timeline.map(item => item.id == y.id ? y : item)
         this.addUpdateEdit(event)
         this.$store.dispatch("snackbars/setSnackbars", {text:'Tarefa direcionada com sucesso', color:'primary', timeout:'3000'})
+      },
+      addFaseSave(event){
+        this.addFase(event)
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Atualização inserida com sucesso', color:'primary', timeout:'3000'})
+      },
+      updateFase(fase){
+      this.$store.dispatch("snackbars/setSnackbars", {text:'Aguarde', color:'warning', timeout:'3000'})
+       let faseNew = 0
+        switch (fase.status) {
+          case 1:
+            faseNew = 2
+            break;
+          
+          case 2:
+            faseNew = 3
+            break;
+          
+          case 3:
+            faseNew = 1
+            break;
+        
+        
+          default:
+            break;
+        }
+        fase.status = faseNew
+        // this.addFaseEdit(fase)
+        console.log(fase);
+        this.$store.dispatch("snackbars/setSnackbars", {text:'Atualização inserida com sucesso', color:'primary', timeout:'3000'})
       },
       dateMoment(date){
         moment.locale('pt-br')

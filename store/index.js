@@ -19,6 +19,7 @@ export const state = () => ({
       },  
     projects: [],
     updatesProject:[],
+    faseProject:[],
 })
 
 export const getters = {
@@ -36,6 +37,9 @@ export const getters = {
     },
     readUpdates(state){
         return state.updatesProject
+    },
+    readFase(state){
+        return state.faseProject
     },
 }
 
@@ -66,6 +70,13 @@ export const mutations = {
     },
     updateProject(state, payload){
         state.updatesProject.push(payload)
+    },
+    faseProject(state, payload){
+        state.faseProject.push(payload)
+    },
+    editFase(state, payload){
+        const x = state.faseProject.map(item => item.id == payload.id ? payload : item)
+        state.faseProject = x
     },
     updateProjectEdit(state, payload){
         const x = state.updatesProject.map(item => item.id == payload.id ? payload : item)
@@ -265,6 +276,36 @@ export const actions = {
                 method: 'DELETE',
             })
             commit('delUpdate', id)
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async addFase ({ commit }, event) {
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/fase/${event.id}.json`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(event)
+            })
+
+           const dataDB = await res.json()
+           console.log(dataDB);
+           commit('faseProject', event)
+        } catch (error) {
+            console.log(error);     
+        }
+    },
+    async addFaseEdit({commit}, fase){
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/fase/${fase.id}.json`, {
+                method: 'PATCH',
+                body: JSON.stringify(fase)
+            })
+
+            const dataDB = await res.json()
+            commit('editFase', project)
         } catch (error) {
             console.log(error)
         }
