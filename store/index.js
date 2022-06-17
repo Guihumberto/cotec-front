@@ -68,6 +68,9 @@ export const mutations = {
     loadUpdate(state, payload){
         state.updatesProject = payload
     },
+    loadFaseList(state, payload){
+        state.faseProject = payload
+    },
     updateProject(state, payload){
         state.updatesProject.push(payload)
     },
@@ -235,6 +238,21 @@ export const actions = {
                 arrayProjects.push(dataDB[id])
             }
             commit('loadUpdate', arrayProjects)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    async cargaFaseList({ commit }){
+        try {
+            const res = await fetch('https://cotec-api-default-rtdb.firebaseio.com/fase.json')
+            const dataDB = await res.json()
+            const arrayProjects = []
+
+            for (let id in dataDB){
+                arrayProjects.push(dataDB[id])
+            }
+            commit('loadFaseList', arrayProjects)
             
         } catch (error) {
             console.log(error)
