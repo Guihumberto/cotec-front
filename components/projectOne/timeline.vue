@@ -56,7 +56,7 @@
         <template v-slot:icon>
           <span v-if="userLogin">{{userInfo.email.substr(0,1).toUpperCase()}}</span>
         </template>
-        <v-card flat outlined max-width="600">
+        <v-card flat outlined max-width="600" v-if="!project.statusFinalizar == 1">
           <v-card-text v-if="userLogin">
             <v-card-actions class="pt-0">
               <v-spacer></v-spacer>
@@ -117,9 +117,16 @@
           >Faça login para inserir dados de atualização do Projeto.
           </v-alert>
         </v-card>
+        <v-card v-else>
+          <v-alert dense
+            
+            type="success">
+            Projeto Finalizado
+          </v-alert>
+        </v-card>
         <v-checkbox
           v-model="justTask"
-          label="Somente Tarefas"
+          label="Ocultar atualizações automáticas"
           class="mt-1 mb-n6"
         ></v-checkbox>   
       </v-timeline-item>
@@ -130,10 +137,10 @@
           v-for="event in timeline"
           :key="event.id"
           class="mb-4"
-          :color="event.task ? 'orange': 'pink'"
+          :color="taskColor(event.task)"
           
         >
-          <v-card :color="event.task ? 'deep-orange lighten-3':'white'">
+          <v-card :color="taskColor(event.task)">
             <v-card-text>
               <v-row justify="space-between">
                 <v-col
@@ -141,7 +148,7 @@
                 > 
                 <v-icon 
                   title="Tarefa"
-                  color="white" small v-if="event.task">mdi-checkbox-marked-circle-plus-outline</v-icon>
+                  color="white" small v-if="event.task == 3">mdi-checkbox-marked-circle-plus-outline</v-icon>
                 <span style="text-transform: uppercase" >{{event.title}}</span> - {{event.text}} </v-col>
                 <v-col
                   class="text-right"
@@ -155,7 +162,7 @@
               </v-row>
             </v-card-text>
             <!-- inserir tarefas -->
-            <v-card-actions v-if="event.task">
+            <v-card-actions v-if="event.task == 3">
                 <div v-show="event.idResponse">
                   <span>Responsável: {{event.idResponse}}</span>
                   <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
@@ -164,7 +171,7 @@
                 <projectOne-addTask :projectTask="event" @addTask="addTaskSave($event)" />
             </v-card-actions>
             <!-- inserir Cronograma -->
-            <v-card-actions v-if="true">
+            <v-card-actions v-if="event.task != 99 && event.task != 3">
               <v-spacer></v-spacer>
               <projectOne-addTimeLine :projectTask="event" @addTimeline="addTimelineSave($event)" />
             </v-card-actions>
@@ -195,6 +202,10 @@
          
         </v-timeline-item>
       </v-slide-x-transition>
+      
+      <v-timeline-item hide-dot="false">
+        <v-btn v-if="timelineLength > 5" @click="showAll = !showAll"  text :color="btnTxt.color" block>{{btnTxt.text}}</v-btn>
+      </v-timeline-item>
 
       <v-timeline-item
         class="mb-6"
@@ -219,6 +230,7 @@
     data: () => ({
       dialog: false,
       justTask: false,
+      showAll: false,
       status: [
         {value: 1, name: 'Não Iniciado'},
         {value: 2, name: 'em andamento'},
@@ -252,11 +264,25 @@
     computed: {
       timeline () {
         if(this.justTask){
-          return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task === true).slice().reverse()
+          return this.showAll
+          ? this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task != 99).sort(this.order).reverse()
+          : this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task != 99).sort(this.order).reverse().slice(0, 5)
     
         } else {
-         return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
+         return this.showAll
+         ? this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).sort(this.order).reverse()
+         : this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).sort(this.order).reverse().slice(0, 5)
         }
+      },
+      timelineLength(){
+        return this.justTask
+         ? this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject && x.task != 99).length
+         : this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).length
+      },
+      btnTxt(){
+          return this.showAll
+          ? {color:'error', text:'Ocultar'}
+          : {color:'primary', text:'Mostrar tudo...'}
       },
       idProject(){
         return this.$route.query.id
@@ -287,7 +313,7 @@
             idProject: this.idProject,
             IdUser: 1,
             text: this.text,
-            task: this.task,
+            task: this.task ? 3 : 1,
             faseDetail: false,
             time: Date.now()
           }
@@ -308,7 +334,7 @@
             idProject: this.idProject,
             IdUser: 1,
             text: this.text,
-            task: this.task,
+            task: this.task ? 3 : 99,
             time: Date.now()
           }
           this.events.push(event)
@@ -444,7 +470,29 @@
                         return "-"
                         break;
                 }
-            }
+      },
+      taskColor(value){
+        switch (value) {
+          case 1:
+              return 'white'
+              break;
+          case 2:
+              return 'error'
+              break;
+          case 3:
+              return 'orange lighten-3'
+              break;
+          case 99:
+              return 'info lighten-3'
+              break;
+          default:
+            return 'white';
+            break;
+        }
+      },
+      order(a, b){
+                return a.time -b.time
+      }
     },
   }
 </script>

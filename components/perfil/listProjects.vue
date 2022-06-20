@@ -25,7 +25,7 @@
                             <v-list-item-subtitle v-text="item.object"></v-list-item-subtitle>
                         </v-list-item-content>
 
-                        <v-list-item-action>
+                        <v-list-item-action v-if="!item.statusFinalizar == 1">
                             <div d-flex>
                                 <perfil-destinyProject v-if="item.status != 3" />
                                 <perfil-finalizarProject :project="item" v-else />
@@ -39,6 +39,9 @@
                                 <perfil-editProject :project="item" />
                                 <forms-confirmation :id="item" @action="deleteProject($event)" />            
                             </div>
+                        </v-list-item-action>
+                        <v-list-item-action v-else>
+                            <v-icon title="Projeto Finalizado">mdi-information</v-icon>
                         </v-list-item-action>
                         
                         </template>

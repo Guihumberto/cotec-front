@@ -143,7 +143,7 @@ export default {
           idProject: this.project.id,
           IdUser: 1,
           text: "(mensagem automática)",
-          task: false,
+          task: 99,
           time: Date.now()
         }  
        this.addUpdate(event)

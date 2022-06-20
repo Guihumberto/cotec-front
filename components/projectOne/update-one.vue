@@ -13,6 +13,8 @@
                         {{dateMoment(item.time)}}
                 </v-list-item-action>
             </v-list-item>
+            <v-btn v-if="timelineLenght > 5" @click="showAll = !showAll"  text :color="btnTxt.color" block>{{btnTxt.text}}</v-btn>
+            
         </v-list>  
         <v-list v-else>
             <v-list-item>
@@ -32,12 +34,28 @@
 <script>
     import moment from 'moment'
     export default {
+        data(){
+            return{
+                showAll: false
+            }
+        },
         props:{
             idProject: String
         },
         computed:{
             timeline () {
-                return this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).slice().reverse()
+                const timeline = this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).sort(this.order).reverse()
+                return this.showAll
+                ? timeline
+                : timeline.slice(0,4)
+            },
+            timelineLenght(){
+                return  this.$store.getters.readUpdates.filter(x => x.idProject == this.idProject).length
+            },
+            btnTxt(){
+                return this.showAll
+                ? {color:'error', text:'Ocultar'}
+                : {color:'primary', text:'Mostrar tudo...'}
             },
         },
         methods: {
@@ -46,6 +64,9 @@
                 const dateM = moment(date).format('lll')
                 return dateM
             },
+            order(a, b){
+                return a.time -b.time
+            }
         },
     }
 </script>

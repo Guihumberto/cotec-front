@@ -12,9 +12,9 @@
       <v-list three-line v-show="minus">
         <v-subheader v-if="updates[0]">Mais Recentes</v-subheader>
         <v-subheader v-else>Não há atualizações de projetos registradas no sistema</v-subheader>
-        <template v-for="item in updates">
+        <template v-for="(item, index) in updates">
 
-          <v-list-item :key="item.id">
+          <v-list-item :key="index">
             <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text" v-if="item.nameProject != 'Vazio'">{{item.nameProject.substr(0,1)}}</span>
             </v-list-item-avatar>
@@ -32,6 +32,9 @@
           </v-list-item>
            <v-divider inset></v-divider>
         </template>
+        <v-spacer></v-spacer>
+        <painels-lastUpdateAllpopUp :projects="projects" />
+        
       </v-list>
       </v-expand-transition>
     </div>
@@ -69,7 +72,7 @@
           }
           updateNew.push(update)
         })
-        return updateNew
+        return updateNew.sort(this.order).reverse().slice(0, 5)
       },
       mergeUpdatesProjects(){
         let nameProject = ''
@@ -92,8 +95,8 @@
         return dateM
       },
     },
-    created(){
-      
+    order(a, b){
+      return a.time -b.time
     }
   }
 </script>

@@ -85,7 +85,7 @@
                     idProject: this.project.id,
                     IdUser: 1,
                     text: "(mensagem automática x003init)",
-                    task: false,
+                    task: 99,
                     time: Date.now()
                 }  
                 this.addUpdate(event)

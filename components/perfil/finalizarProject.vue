@@ -65,6 +65,7 @@
 
 <script>
     import {mapActions} from 'vuex'
+    const shortid = require('shortid');
 
     export default {
         data () {
@@ -95,7 +96,17 @@
                 this.project.textFinal = this.finalizar.textFinal
               }
               this.editProject(this.project)
-              this.$store.dispatch("snackbars/setSnackbars", {text:'Atualização de Status realizada com sucesso', color:'primary', timeout:'3000'})
+              let event = {
+                    id: shortid.generate(),
+                    title: "Projeto Finalizado",
+                    idProject: this.project.id,
+                    IdUser: 1,
+                    text: "(mensagem automática)",
+                    task: 99,
+                    time: Date.now()
+                }  
+                this.addUpdate(event)
+              this.$store.dispatch("snackbars/setSnackbars", {text:'Projeto finalizado com sucesso', color:'primary', timeout:'3000'})
               console.log(this.project);    
             }
           }

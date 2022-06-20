@@ -44,6 +44,11 @@
     <template v-slot:item.type="{ item }">
       {{ typeProject(item.type) }}
     </template>
+    <template v-slot:item.execution="{ item }">
+    
+        <span :title="executionName(item.execution).text">{{executionName(item.execution).pct}}</span>
+      
+    </template>
   </v-data-table>
   </v-expand-transition>
 </div>
@@ -117,6 +122,41 @@
         if( x == 2) { return 'Infra'}
         if( x == 3) { return 'Outros'}
         
+      },
+      executionName(value){
+        switch (value) {
+            case 0:
+                return {pct: '0%', text: 'NÃO INICIADA'}
+                break;
+
+            case 1:
+                return  {pct: '1% a 10%', text: 'ESTUDOS INICIAIS'} 
+                break;
+
+            case 2:
+                return  {pct: '11% a 30%', text: 'TERMO DE REFERÊNCIA/CONTRATAÇÃO'}
+                break;
+
+            case 3:
+                return  {pct: '31% a 50%', text: 'EXECUÇÃO INICIAL'}
+                break;
+
+            case 4:
+                return  {pct: '51% a 75%', text: 'EXECUÇÃO AVANÇADA'} 
+                break;
+
+            case 5:
+                return  {pct: '76% a 99%', text: ' ELABORAÇÃO CONCLUÍDA'} 
+                break;
+
+            case 6:
+                return  {pct: '100%', text: 'IMPLANTADA E EM PRODUÇÃO'} 
+                break;
+        
+            default:
+                return {pct: '-', text: '-'}
+                break;
+        }
       }
     },
   }
