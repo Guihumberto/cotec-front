@@ -57,6 +57,7 @@
 <script>
     import moment from 'moment'
     const shortid = require('shortid');
+    
     export default {
         data(){
           return{

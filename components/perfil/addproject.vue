@@ -48,11 +48,11 @@
             v-model.trim="project.object"
             :rules="[
               () => !!project.object || 'Campo Obrigatório',
-              () => !!project.object && project.object.length <= 25 || 'Descreva o objetivo do projeto'
+              () => !!project.object && project.object.length <= 300 || 'Descreva o objetivo do projeto'
             ]"
             label="Objeto/Objetivo"
             placeholder="Descreva o objetivo e/ou objeto do projeto"
-            counter="25"
+            counter="300"
             required
           ></v-textarea>
           <v-text-field
@@ -126,15 +126,27 @@ export default {
     }
   },
   methods:{
-      ...mapActions(['setProjects']),
-      submit(){
-        
+      ...mapActions(['setProjects', 'addUpdate']),
+      submit(){ 
         //gerar id e tratar dados forms
         this.project.id = shortid.generate()
         this.project.name = this.project.name.charAt(0).toUpperCase() + this.project.name.slice(1)
         this.project.lider = this.project.lider.charAt(0).toUpperCase() + this.project.lider.slice(1)
         this.project.colider = this.project.colider.charAt(0).toUpperCase() + this.project.colider.slice(1)
         this.project.sector = this.project.sector.toUpperCase()
+
+
+        //gravar atualização
+        let event = {
+          id: shortid.generate(),
+          title: "Inclusão do Projeto",
+          idProject: this.project.id,
+          IdUser: 1,
+          text: "(mensagem automática)",
+          task: false,
+          time: Date.now()
+        }  
+       this.addUpdate(event)
 
         //gravar dados
         this.setProjects(this.project)

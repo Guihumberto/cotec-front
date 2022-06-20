@@ -25,6 +25,11 @@
         {{ item.priority  }}
       </v-chip>
     </template>
+    <template v-slot:item.lider="{ item }">
+    
+        {{ item.lider.split(' ')[0]}} <span v-if="item.lider.split(' ')[1]">{{item.lider.split(' ')[1]  }}</span>
+      
+    </template>
     <template v-slot:item.profisco="{ item }">
       <v-chip
         :color="getColorProfisco(item.profisco)"
@@ -62,7 +67,6 @@
           { text: 'Profisco', value: 'profisco', align: 'center', class:'indigo darken-4 white--text'},
           { text: 'Proridades', value: 'priority', align: 'center', class:'indigo darken-4 white--text'},
           { text: 'Lider', value: 'lider', class:'indigo darken-4 white--text'},
-          { text: 'Colíder', value: 'colider', class:'indigo darken-4 white--text'},
           { text: 'Tipo', value: 'type', align: 'center', class:'indigo darken-4 white--text'},
           { text: 'Status', value: 'status', align: 'center', class:'indigo darken-4 white--text'},
           { text: 'Execução (%)', value: 'execution', align: 'center', class:'indigo darken-4 white--text'},

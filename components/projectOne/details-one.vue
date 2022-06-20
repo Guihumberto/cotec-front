@@ -16,7 +16,7 @@
                 <span>Objetivo:</span>
             </v-col>
             <v-col>
-               <span>{{project.object}}</span>
+               <p class="texta_ajust">{{project.object}}</p>
             </v-col>
         </v-row>
         <v-row>
@@ -108,5 +108,9 @@
 </script>
 
 <style scoped>
+.texta_ajust{
+    text-align: justify;
+    hyphens: auto;
+}
 
 </style>

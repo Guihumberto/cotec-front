@@ -1,7 +1,8 @@
 <template>
     <v-card-text>
         <v-card flat>
-            <v-text-field v-model="search.search" clearable prepend-inner-icon="mdi-magnify" outlined dense label="Buscar" solo></v-text-field>
+            <v-text-field v-model="search.search" clearable prepend-inner-icon="mdi-magnify" outlined dense label="Buscar" solo>
+            </v-text-field>
             <v-checkbox class="ma-0 pa-0"
             label="Profisco"
             v-model="search.profisco"
@@ -14,8 +15,11 @@
                     multiple
                 >
                     <template v-for="(item, index) in searchProjects">
-                    <v-list-item :key="item.name">
-                        <template v-slot:default="{ active }">
+                    <v-list-item :key="index">
+                        <template>
+                        <v-list-item-avatar class="mr-1">
+                            <v-icon color="success" large>mdi-square</v-icon>
+                        </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title> {{item.name}} <v-chip x-small color="primary lighten-1" v-show="item.profisco" v-text="item.profisco? 'Profisco':''"></v-chip> </v-list-item-title>
                             <v-list-item-subtitle v-text="item.object"></v-list-item-subtitle>
@@ -23,7 +27,8 @@
 
                         <v-list-item-action>
                             <div d-flex>
-                                <perfil-destinyProject />
+                                <perfil-destinyProject v-if="item.status != 3" />
+                                <perfil-finalizarProject :project="item" v-else />
                                 <perfil-details :project="item" />
                                 <v-btn title="atualizar andamento do projeto" icon small :to="{
                                     name: 'project',

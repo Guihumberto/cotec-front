@@ -2,6 +2,9 @@
     <v-card-text>
         <v-list v-if="timeline[0]">
             <v-list-item two-line v-for="(item, i) in timeline" :key="i">
+                <v-list-item-avatar class="mr-1">
+                    <v-icon large>mdi-bookmark</v-icon>
+                </v-list-item-avatar>
                 <v-list-item-content>
                     <v-list-item-title>{{item.title}}</v-list-item-title>
                     <v-list-item-subtitle>{{item.text}}</v-list-item-subtitle>

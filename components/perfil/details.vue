@@ -8,10 +8,11 @@
             <v-card-title><span class="mark"></span>{{project.name}}</v-card-title>
             <v-card-subtitle class="text-h6 mt-2">Dados do Projeto</v-card-subtitle>
        
-            <projectOne-details-one :project="project" />
+                <projectOne-details-one :project="project" />
 
             <v-card-subtitle class="text-h6 mt-2">Atualizações</v-card-subtitle>
-            <projectOne-update-one :idProject="project.id" />
+                <projectOne-update-one :idProject="project.id" />
+
             <v-divider></v-divider>
             <v-card-actions>
                 <v-spacer></v-spacer>

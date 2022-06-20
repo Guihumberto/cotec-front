@@ -12,7 +12,6 @@
                     outlined dense
                     ref="company"
                     v-model="project.company"
-                    :rules="[() => !!project.company || 'Campo Obrigatório']"
                     label="Empresa/Consultoria"
                     required
                     placeholder="Digite o nome da empresa/consultoria prestadora de serviço."
@@ -71,6 +70,7 @@
 <script>
 
     import { mapActions } from 'vuex';
+    const shortid = require('shortid');
 
     export default {
         data(){
@@ -98,7 +98,7 @@
             project:Object
         },
         methods:{
-            ...mapActions(['editProject']),
+            ...mapActions(['editProject', 'addUpdate']),
             addProject(){
                 if(this.project.status != 4) {
                     switch (this.project.execution) {
@@ -120,6 +120,20 @@
                             break;
                     }
                 }
+
+                //gravar atualização
+                let event = {
+                id: shortid.generate(),
+                title: "Atualização de informações do Projeto",
+                idProject: this.project.id,
+                IdUser: 1,
+                text: "(mensagem automática)",
+                task: false,
+                time: Date.now()
+                }  
+                this.addUpdate(event)
+
+                //Gravar Dados
                 this.editProject(this.project)
                 this.dialog = false
                 this.$store.dispatch("snackbars/setSnackbars", {text:'Informações adicionais atualizadas', color:'primary', timeout:'3000'})

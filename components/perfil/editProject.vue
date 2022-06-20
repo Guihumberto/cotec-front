@@ -64,6 +64,8 @@
 
 <script>
     import {mapActions} from 'vuex';
+    const shortid = require('shortid');
+
     export default {
         data(){
             return{
@@ -74,8 +76,21 @@
             project: Object
         },
         methods:{
-            ...mapActions(['editProject']),
+            ...mapActions(['editProject', 'addUpdate']),
             edit(){
+                //gravar atualização
+                let event = {
+                    id: shortid.generate(),
+                    title: "Atualização dos dados do Projeto",
+                    idProject: this.project.id,
+                    IdUser: 1,
+                    text: "(mensagem automática x003init)",
+                    task: false,
+                    time: Date.now()
+                }  
+                this.addUpdate(event)
+                this.$store.dispatch("snackbars/setSnackbars", {text:'Informações do Projeto atualizadas', color:'primary', timeout:'3000'})
+
                 this.editProject(this.project)
                 this.dialog = false
             }
