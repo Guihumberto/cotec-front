@@ -18,7 +18,6 @@
         <v-chip title="Status" small color="error lighten-1" v-show="tags.status == 1">Não Iniciado</v-chip>
         <v-chip title="Status" small color="warning lighten-1" v-show="tags.status == 2">Em andamento</v-chip>
         <v-chip title="Status" small color="success lighten-1" v-show="tags.status == 3">Concluído</v-chip>
-        <v-chip title="Execução" small dark color="cyan lighten-1" v-show="tags.status == 2">{{tags.execution}}%</v-chip>
         <v-chip title="Status" small color="error" v-show="tags.status == 99">Paralizada</v-chip>
         <v-chip title="Tipo do Projeto" small v-show="tags.type == 1" >Sistema</v-chip>
         <v-chip title="Tipo do Projeto" small v-show="tags.type == 2" >Infra</v-chip>

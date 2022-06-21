@@ -6,7 +6,7 @@
         <v-card>
             <v-card-title>Objeto <v-spacer></v-spacer> <v-btn icon @click="alert"> <v-icon :color="notification ? 'warning' : 'secondary'">mdi-bell</v-icon> </v-btn></v-card-title>
             <v-card-text>
-                {{selectProject.object}}
+               <p class="textJustify pr-2">{{selectProject.object}}</p> 
             </v-card-text>
             <projectOne-documents />
             <projectOne-details :selectProject="selectProject" />
@@ -83,5 +83,13 @@ export default {
         border: 1px solid rgb(223, 220, 220);
         border-radius: 12px;
         padding: 12px 0;
+    }
+    .textJustify{
+        text-align: justify;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
     }
 </style>

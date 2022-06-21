@@ -6,7 +6,9 @@
                     <v-col cols="12" sm="3" class="mr-n3 px-0"> <strong>{{fase.etapa}}</strong></v-col>
                     <v-col cols="12" sm="4"><span class="text-caption">{{fase.description}}</span></v-col>
                     <v-col cols="12" sm="3"><span class="text-caption">{{statusName(fase.status)}}</span></v-col>
-                    <v-col cols="12" sm="1" class="px-0 mr-n3"><v-btn color="primary" @click="updateFase(fase)" small><v-icon>mdi-update</v-icon></v-btn></v-col>
+                    <v-col cols="12" sm="1" class="px-0 mr-n3" v-if="userLogin">
+                        <v-btn color="primary" @click="updateFase(fase)" small><v-icon>mdi-update</v-icon></v-btn>
+                    </v-col>
                 </v-row>
             </v-timeline-item>
         </v-timeline>

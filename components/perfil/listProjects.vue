@@ -41,7 +41,14 @@
                             </div>
                         </v-list-item-action>
                         <v-list-item-action v-else>
-                            <v-icon title="Projeto Finalizado">mdi-information</v-icon>
+                            <div d-flex>
+                                <perfil-details :project="item" />
+                                <v-btn title="atualizar andamento do projeto" icon small :to="{
+                                        name: 'project',
+                                        params:{project: item.name},
+                                        query:{id: item.id}  
+                                    }"> <v-icon>mdi-update</v-icon> </v-btn>
+                            </div>
                         </v-list-item-action>
                         
                         </template>

@@ -1,6 +1,6 @@
 <template>
 <v-expand-x-transition>
-<div class="my-5" v-show="close">
+<div class="my-5" v-show="close" style="backgroundColor: rgba(0, 255, 0, 0.1);">
   <div class="d-flex justify-space-between">
     <span class="Heading 6"> <span class="verticalTag"></span> Lista de Priotidades - PDTI</span>
     <span>

@@ -1,6 +1,6 @@
 <template>
   <v-expand-x-transition>
-    <div class="my-5" v-show="close">
+    <div class="my-5" v-show="close"  style="backgroundColor: rgba(0, 255, 0, 0.1);">
       <div class="d-flex justify-space-between">
         <span class="Heading 6"><span class="verticalTag"></span>Últimas atualizações</span>
         <span>
@@ -14,7 +14,13 @@
         <v-subheader v-else>Não há atualizações de projetos registradas no sistema</v-subheader>
         <template v-for="(item, index) in updates">
 
-          <v-list-item :key="index">
+          <v-list-item :key="index" 
+            :to="{
+                  name: 'project',
+                  params:{project: item.nameProject},
+                  query:{id: item.idProject}  
+                }"
+          >
             <v-list-item-avatar color="indigo" class="align_avatar">
               <span class="white--text" v-if="item.nameProject != 'Vazio'">{{item.nameProject.substr(0,1)}}</span>
             </v-list-item-avatar>
@@ -33,7 +39,7 @@
            <v-divider inset></v-divider>
         </template>
         <v-spacer></v-spacer>
-        <painels-lastUpdateAllpopUp :projects="projects" />
+        <painels-lastUpdateAllpopUp v-if="updates[0]" :projects="projects" />
         
       </v-list>
       </v-expand-transition>

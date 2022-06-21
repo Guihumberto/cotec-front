@@ -168,12 +168,16 @@
                   <span class="ml-2">Data Limite: {{event.dateLimit}}</span>
                 </div>
                 <v-spacer></v-spacer>
-                <projectOne-addTask :projectTask="event" @addTask="addTaskSave($event)" />
+                <div v-if="!project.statusFinalizar">
+                  <projectOne-addTask v-if="userLogin" :projectTask="event" @addTask="addTaskSave($event)" />
+                </div>
             </v-card-actions>
             <!-- inserir Cronograma -->
             <v-card-actions v-if="event.task != 99 && event.task != 3">
               <v-spacer></v-spacer>
-              <projectOne-addTimeLine :projectTask="event" @addTimeline="addTimelineSave($event)" />
+              <div v-if="!project.statusFinalizar">
+                <projectOne-addTimeLine v-if="userLogin" :projectTask="event" @addTimeline="addTimelineSave($event)" />
+              </div>
             </v-card-actions>
              <!-- Cronograma -->
             <v-alert
@@ -188,7 +192,9 @@
                 <v-col cols="12" sm="3">Início: <span class="font-italic">{{dateFormat(event.dateStart)}}</span></v-col>
                 <v-col cols="12" sm="3">Fim: <span class="font-italic">{{dateFormat(event.dateLimit)}}</span></v-col>
                 <v-col cols="12" sm="4">Status: <v-chip x-small :color="statusColor(event.status)"> {{statusName(event.status)}}</v-chip></v-col>
-                <v-col cols="12" sm="1"> <projectOne-addFase :projectTask="event" @addFase="addFaseSave($event), event.faseDetail = true" /></v-col>
+                <v-col cols="12" sm="1" v-if="userLogin"> 
+                  <projectOne-addFase v-if="!project.statusFinalizar" :projectTask="event" @addFase="addFaseSave($event), event.faseDetail = true" />
+                </v-col>
               </v-row>
             </v-alert>
             <!-- Subgrupos FASE -->
