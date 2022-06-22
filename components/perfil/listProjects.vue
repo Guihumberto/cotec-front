@@ -18,7 +18,7 @@
                     <v-list-item :key="index">
                         <template>
                         <v-list-item-avatar class="mr-1">
-                            <v-icon color="success" large>mdi-square</v-icon>
+                            <v-icon :color=" item.statusFinalizar ? 'success':'secondary lighten 2'" large>mdi-square</v-icon>
                         </v-list-item-avatar>
                         <v-list-item-content>
                             <v-list-item-title> {{item.name}} <v-chip x-small color="primary lighten-1" v-show="item.profisco" v-text="item.profisco? 'Profisco':''"></v-chip> </v-list-item-title>
