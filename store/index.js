@@ -7,6 +7,8 @@ export const state = () => ({
     userInfo: null,
     users:[
     ],
+    userControl: null,
+    usersControl: [],
     projecto:{
         id:'', 
         name:'', 
@@ -29,6 +31,12 @@ export const getters = {
     readUserInfo(state){
         return state.userInfo
     },
+    readUserControl(state){
+        return state.userControl
+    },
+    readUsersControl(state){
+        return state.usersControl
+    },
     readProjects(state){
         return state.projects
     },
@@ -48,8 +56,14 @@ export const mutations = {
         state.user = payload
         state.userInfo = payload
     },
+    userControlSet(state, payload) {
+        state.userControl = payload
+    },
     load(state, payload){
         state.projects = payload
+    },
+    loadUsersControl(state, payload){
+        state.usersControl = payload
     },
     set(state, payload) {
         state.projects.push(payload)
@@ -93,9 +107,10 @@ export const mutations = {
 
 export const actions = {
     closeSession({ commit }) {
-    commit('setUser', null)
-    this.$router.push('/')
-    localStorage.removeItem('usuario')
+        commit('setUser', null)
+        commit('userControlSet', null)
+        this.$router.push('/')
+        localStorage.removeItem('usuario')
     },
     async loginUser({ commit, dispatch }, user) {
     try {
@@ -146,6 +161,23 @@ export const actions = {
         console.log(error)
     }
     },
+    async usersControl({ commit }, user){
+        try {
+            const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/users/${user.id}.json`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            })
+
+            const dataDB = await res.json()
+            commit('userControlSet', user)
+
+        } catch(error){
+            console.log(error)
+        }
+    },
     async loadLocalStorage({ commit }) {
     if (localStorage.getItem('usuario')) {
         commit('setUser', JSON.parse(localStorage.getItem('usuario')))
@@ -184,6 +216,20 @@ export const actions = {
             console.log(error)
         }
     },
+    async cargaUserControl({ commit },){
+        try {
+            const res = await fetch('https://cotec-api-default-rtdb.firebaseio.com/users.json')
+            const dataDB = await res.json()
+            const arrayProjects = []
+
+            for (let id in dataDB){
+                arrayProjects.push(dataDB[id])
+            }
+            commit('loadUsersControl', arrayProjects)     
+        } catch (error) {
+            console.log(error)
+        }
+    },
     async setProjects({ commit }, project) {
         try {
             const res = await fetch(`https://cotec-api-default-rtdb.firebaseio.com/projects/${project.id}.json`, {
@@ -199,8 +245,7 @@ export const actions = {
 
         } catch(error){
             console.log(error)
-        }
-        
+        } 
     },
     async deleteProject({ commit }, id) {
         try {

@@ -91,7 +91,6 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-app-bar-title>{{titleApp}}</v-app-bar-title>
-
       <v-spacer></v-spacer>
 
 
@@ -221,9 +220,12 @@
       userInfo(){
         return this.$store.getters.readUserInfo
       },
+      userControl(){
+        return this.$store.getters.readUsersControl
+      },
     },
     methods:{
-      ...mapActions(['cargaAPI', 'cargaUpdate', 'closeSession']),
+      ...mapActions(['cargaAPI', 'cargaUpdate', 'closeSession', 'cargaUserControl']),
       closeLogin(){
         this.closeSession()
         this.$store.dispatch("snackbars/setSnackbars", {text:'Sessão encerrada', color:'error'})
@@ -233,6 +235,7 @@
     fetch(){
       this.cargaAPI()
       this.cargaUpdate()
+      this.cargaUserControl()
     }
   }
 </script>

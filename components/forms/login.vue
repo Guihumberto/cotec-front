@@ -70,7 +70,7 @@
                         >{{texts.toolbar}}</v-btn>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn :color="texts.color" dense small text @click="isLogin = !isLogin">{{texts.button}}</v-btn>
+                            <v-btn disabled :color="texts.color" dense small text @click="isLogin = !isLogin">{{texts.button}}</v-btn>
                         </v-card-actions>
                     </v-form>
                 </v-card-text>
@@ -88,6 +88,8 @@
 <script>
 
     import {mapActions} from 'vuex'
+    const shortid = require('shortid');
+
 
 export default {
     data(){
@@ -123,7 +125,7 @@ export default {
         },
     },
     methods:{
-        ...mapActions(['register', 'loginUser']),
+        ...mapActions(['register', 'loginUser', 'usersControl']),
         close(){
             // this.$emit('closeDialog', false)
             // this.$refs.form.reset()
@@ -141,6 +143,15 @@ export default {
                     this.userInfo.email = this.userInfo.email.toLowerCase()
                     this.userInfo.displayName = this.userInfo.displayName.charAt(0).toUpperCase() + this.userInfo.displayName.slice(1)
                     this.register(this.userInfo)
+
+                    //controle de usuários - projetos, nome, dados adicionais
+                    const userAdd = {
+                        id: shortid.generate(),
+                        email: this.userInfo.email,
+                        nameUser: this.userInfo.displayName
+                    }
+                    this.usersControl(userAdd)
+
                     this.clearFields()
                     this.dialog = false
                     this.$emit('barLeft')
